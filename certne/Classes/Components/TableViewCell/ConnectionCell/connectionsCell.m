@@ -16,7 +16,6 @@
 @synthesize industryLabel;
 @synthesize companyLabel;
 @synthesize view;
-@synthesize promptsLabel;
 
 #pragma mark-View lifeCycle methods
 
@@ -30,13 +29,6 @@
         
         UIImageView *headTempImageView=[[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 70, 70)];
         [headTempImageView setImage:[UIImage imageNamed:@"circle_headImage.png"]];
-        
-        promptsLabel=[[PromptsLabel alloc] initWithFrame:CGRectMake(30, 60, 16, 16)];
-        promptsLabel.promptsNumber = 2;
-        promptsLabel.textColor=[UIColor whiteColor];
-        promptsLabel.text=[NSString stringWithFormat:@"%i",2];
-        promptsLabel.textAlignment=NSTextAlignmentCenter;
-        promptsLabel.font=[UIFont boldSystemFontOfSize:12];
         
         nameLabel=[[UILabel alloc]initWithFrame:CGRectMake(110, 15, 60, 20)];
         [nameLabel setBackgroundColor:[UIColor clearColor]];
@@ -62,28 +54,21 @@
         [companyLabel setTextAlignment:NSTextAlignmentLeft];
         [companyLabel setTextColor:[UIColor colorWithRed:100/255.0f green:100/255.0f blue:100/255.0f alpha:1.0]];
         
-        UIImageView *cell_arrowImageView=[[UIImageView alloc] initWithFrame:CGRectMake(295, 35, 10, 20)];
-//        cell_arrowImageView.image=[UIImage imageNamed:@"cell_arrow.png"];
-        
         UIView *lineView=[[UIView alloc] initWithFrame:CGRectMake(0, 89, self.bounds.size.width, 1)];
         lineView.backgroundColor=[UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
         
         view=[[UIView alloc] initWithFrame:CGRectMake(320, 0, 320, 90)];
         [view addSubview:headImageButton];
         [view addSubview:headTempImageView];
-        [view addSubview:promptsLabel];
         [view addSubview:nameLabel];
         [view addSubview:positionLabel];
         [view addSubview:industryLabel];
         [view addSubview:companyLabel];
-        [view addSubview:cell_arrowImageView];
         [view addSubview:lineView];
         
         [self addSubview:view];
         [headTempImageView release];
-        [cell_arrowImageView release];
         [lineView release];
-        [promptsLabel release];
     }
     return self;
 }

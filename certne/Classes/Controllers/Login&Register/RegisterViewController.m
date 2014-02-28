@@ -155,8 +155,6 @@
     static int minute;
     static int second;
     
-    NSLog(@"dateString=%@",dateString);
-    
     if (self.timerStart) {
         minute = [[dateString substringWithRange:NSMakeRange(0, 2)] integerValue];
         second = [[dateString substringWithRange:NSMakeRange(3, 2)] integerValue];//--截取字符串
@@ -195,7 +193,6 @@
     
     if (registerResponse.status==1) {
         //--如果得到验证码，即转向验证码界面
-        NSLog(@"验证码:%i",registerResponse.code);
         [self loadAuthCodeViewController];
     }else if (registerResponse.status==2){
         UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"您已注册，请直接登陆!"

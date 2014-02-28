@@ -44,7 +44,7 @@
     NSHTTPURLResponse   *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] retain];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -55,10 +55,6 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"需求信息:%@",receivedString);
-    [receivedString release];
-    
     PublicInfoResponseParser *parser = [[PublicInfoResponseParser alloc] init];
     id parserObject = [parser PublicInfoResponseParserWithJsonData:self.receivedData];
     if ([[parserObject class] isSubclassOfClass:[PublicInfoResponse class]]) {
@@ -86,6 +82,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

@@ -48,7 +48,7 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] init];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -59,10 +59,6 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"我的好友的详细供求信息:%@",receivedString);
-    [receivedString release];
-    
     FriendInfoAndMessageParser *parser = [[FriendInfoAndMessageParser alloc] init];
     id parserObject = [parser friendInfoAndMessageParserWithJsonData:self.receivedData];
     
@@ -91,6 +87,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

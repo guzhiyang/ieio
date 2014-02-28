@@ -24,6 +24,5 @@
 -(void)publicInfo;
 -(void)addFriendVerify;
 -(void)searchMeByMobile;
--(void)recommendFriend;
 
 @end

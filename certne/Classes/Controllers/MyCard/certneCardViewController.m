@@ -198,7 +198,6 @@
 
 -(void)CardDoExchangeRequestDidFailed:(CardDoExchangeRequest *)cardDoExchangeRequest error:(NSError *)error
 {
-    NSLog(@"CardDoExchangeRequestDidFailed:%@",error);
 }
 
 #pragma mark- GetChangeCardListRequest delegate methods
@@ -220,7 +219,6 @@
 
 -(void)GetChangeCardListRequestDidFaild:(GetChangeCardListRequest *)getChangeCardListRequest error:(NSError *)error
 {
-    NSLog(@"GetChangeCardListRequestDidFaild:%@",error);
 }
 
 -(void)showAlertViewWithMessage

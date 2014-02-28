@@ -195,7 +195,6 @@
 
 -(void)DoExchangeRequestDidFailed:(DoExchangeRequest *)doExchagneRequest error:(NSError *)error
 {
-    NSLog(@"DoExchangeRequestDidFailed:%@",error);
 }
 
 #pragma mark- TableView delegate methods
@@ -281,7 +280,6 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"图片队列下载失败:%@",error);
 }
 
 #pragma mark- Memory menagement methods

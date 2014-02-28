@@ -186,7 +186,13 @@
 
 -(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
 {
-    NSLog(@"头像下载失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- ImageDownLoadQueue delegate methods
@@ -200,7 +206,13 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"下载图片列表失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- TableView datasource methods
@@ -318,12 +330,10 @@
 
 -(void)didPerformFoldActionInOverlayMenuView:(QBKOverlayMenuView *)overlaymenuView
 {
-    NSLog(@"关闭菜单");
 }
 
 -(void)didPerformUnfoldActionInOverlayMenuView:(QBKOverlayMenuView *)overlaymenuView
 {
-    NSLog(@"打开菜单");
 }
 
 #pragma mark - AddToContactList delegate methods
@@ -333,13 +343,19 @@
     if (response.status == 1) {
         NSLog(@"已添加到联系列表");
     }else{
-        NSLog(@"没有收到值");
+        NSLog(@"没有收到信息");
     }
 }
 
 -(void)addToContactListRequestDidFailed:(AddToContactListRequest *)addToContactListRequest error:(NSError *)error
 {
-    NSLog(@"失败原因:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- Memory menagement methods

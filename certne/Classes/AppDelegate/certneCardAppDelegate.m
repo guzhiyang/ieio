@@ -202,7 +202,6 @@
     }
 }
 
-//--获取推送消息
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString *myDeviceToken = [NSString stringWithFormat:@"%@",deviceToken];

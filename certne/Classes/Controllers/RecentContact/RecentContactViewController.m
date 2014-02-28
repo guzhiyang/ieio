@@ -276,7 +276,13 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"用户头像下载失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - GetFriendsDetailMsg delegate methods
@@ -295,7 +301,13 @@
 
 -(void)GetFriendDetailInfoRequestDidFailed:(GetFriendDetailInfoRequest *)getFriendDetailInfoRequest error:(NSError *)error
 {
-    NSLog(@"获取联系好友详细信息失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - ReloadTableViewData delegate methods
@@ -364,7 +376,13 @@
 
 -(void)GetContactUserListRequestDidFailed:(GetContactUserListRequest *)getContactUserListRequest error:(NSError *)error
 {
-    NSLog(@"刷新失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - memory management methods

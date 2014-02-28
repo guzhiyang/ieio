@@ -216,7 +216,13 @@
 {
     _isLoading = NO;
     [_activityView stopAnimating];
-    NSLog(@"下载图片失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - Textfield delegate methods

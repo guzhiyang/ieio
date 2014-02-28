@@ -74,7 +74,6 @@
         {
             UIButton *tempButton=[UIButton buttonWithType:UIButtonTypeCustom];
             
-//            tempButton.frame=CGRectMake(10+xIndex*38, 10+yIndex*44, 32, 32);
             tempButton.frame=CGRectMake(xIndex*40, 10+yIndex*44, 32, 32);
             NSMutableDictionary *tempDic=[_phraseArray objectAtIndex:i];
             UIImage *tempImage=[tempDic valueForKey:[NSString stringWithFormat:@"[/%d]",i]];
@@ -84,12 +83,6 @@
             [tempButton addTarget:self action:@selector(didSelectFace:) forControlEvents:UIControlEventTouchUpInside];
             [_faceScrollView addSubview:tempButton];
             
-//            xIndex += 1;
-//            if (xIndex==8)
-//            {
-//                xIndex=0;
-//                yIndex+=1;
-//            }
             yIndex += 1;
             if (yIndex==3)
             {
@@ -99,9 +92,6 @@
 
         }
     }
-    
-//    [_faceScrollView setContentSize:CGSizeMake(320.0f, 12+(yIndex+1)*32)];
-//    [_faceScrollView setContentSize:CGSizeMake(12+(xIndex+1)*32,135.0f)];
 }
 
 -(void)didSelectFace:(id)sender
@@ -116,11 +106,6 @@
             [_delegate sendTextToChatViewController:self];
         }
     }
-//    _chatViewController.phraseString=faceStr;
-//    [_chatViewController.messageString appendString:_chatViewController.phraseString];
-//    self.chatViewController.phraseString=_faceString;
-//    NSLog(@"phrase = %@",self.chatViewController.phraseString);//这个值为空
-//    [self.chatViewController.messageString appendString:self.chatViewController.phraseString];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

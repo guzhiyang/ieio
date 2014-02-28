@@ -79,38 +79,7 @@
         [self addSubview:phoneNumSwitch];
         [phoneNumSwitch release];
         
-        //        UIImageView *tempImageView_4=[[UIImageView alloc]initWithFrame:CGRectMake(0, 153, 320, 50)];
-        //        [tempImageView_4 setBackgroundColor:[UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0]];
-        //        [self addSubview:tempImageView_4];
-        //        [tempImageView_4 release];
-        //
-        //        UILabel *titleLabel_4=[[UILabel alloc]initWithFrame:CGRectMake(10, 168, 150, 20)];
-        //        [titleLabel_4 setBackgroundColor:[UIColor clearColor]];
-        //        [titleLabel_4 setText:@"推荐通讯录好友"];
-        //        [titleLabel_4 setTextColor:[UIColor darkGrayColor]];
-        //        [titleLabel_4 setTextAlignment:NSTextAlignmentRight];
-        //        [titleLabel_4 setFont:[UIFont fontWithName:FONTNAME size:14]];
-        //        [self addSubview:titleLabel_4];
-        //        [titleLabel_4 release];
-        //
-        //        UISwitch *addressBookSwitch=[[UISwitch alloc]initWithFrame:CGRectMake(200, 163, 80, 30)];
-        //        [addressBookSwitch addTarget:self action:@selector(forwardToAddressBook:) forControlEvents:UIControlEventTouchUpInside];
-        //        addressBookSwitch.on=YES;
-        //        [self addSubview:addressBookSwitch];
-        //        [addressBookSwitch release];
-        
-        UIImage *sendMessageImage=[UIImage imageNamed:@"btn_test.png"];
-        UIImage *stetchSendMessageImage=[sendMessageImage stretchableImageWithLeftCapWidth:10 topCapHeight:5];
-        
-        UIButton *recommendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        recommendButton.frame = CGRectMake(4, 160, 312, 36);
-        [recommendButton setTitle:@"推荐通讯录好友" forState:UIControlStateNormal];
-        [recommendButton.titleLabel setFont:[UIFont boldSystemFontOfSize:16]];
-        [recommendButton setBackgroundImage:stetchSendMessageImage forState:UIControlStateNormal];
-        [recommendButton addTarget:self action:@selector(recommendFriend:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:recommendButton];
-        
-        self.backgroundColor=[UIColor colorWithRed:240/255.0f green:240/255.0f blue:240/255.0f alpha:1.0];
+        self.backgroundColor=UIColorFromFloat(240, 240, 240);
     }
     return self;
 }
@@ -135,13 +104,6 @@
 {
     if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(searchMeByMobile)]) {
         [_delegate searchMeByMobile];
-    }
-}
-
--(void)recommendFriend:(id)sender
-{
-    if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(recommendFriend)]) {
-        [_delegate recommendFriend];
     }
 }
 

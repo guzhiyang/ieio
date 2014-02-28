@@ -8,14 +8,16 @@
 
 #import "BaseViewController.h"
 #import "NewPswCheckRequest.h"
+#import "FindPswRequest.h"
 #import "NavBarView.h"
 
-@interface FindPswAuthCodeViewController : BaseViewController<UITextFieldDelegate,NewPswCheckRequestDelegate,NavBarViewDelegate>
+@interface FindPswAuthCodeViewController : BaseViewController<UITextFieldDelegate,NewPswCheckRequestDelegate,NavBarViewDelegate,FindPswRequestDelegate>
 {
     UITextField         *_authCodeTextField;
     
     NewPswCheckRequest  *_newPswCheckRequest;
     NavBarView          *_navBarView;
+    FindPswRequest      *_findPswRequest;
 }
 
 @property (retain, nonatomic) UITextField       *authCodeTextField;

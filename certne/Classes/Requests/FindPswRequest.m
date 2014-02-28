@@ -46,10 +46,9 @@
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-    NSLog(@"FindPswRequest status=%i",httpResponse.statusCode);
-    
+
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] retain];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -91,6 +90,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

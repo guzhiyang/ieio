@@ -203,7 +203,6 @@
 
 -(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
 {
-    NSLog(@"下载图片失败:%@",error);
 }
 
 #pragma mark - NavBarView delegate methods

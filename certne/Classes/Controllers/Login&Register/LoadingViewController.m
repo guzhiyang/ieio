@@ -96,7 +96,6 @@
         [Global shareGlobal].session_id  = sessionID.sessionID;
         
         if ([[Global shareGlobal].currentUser.avatar length] > 5) {
-            NSLog(@"头像可以下载!");
             _imageDownLoader = [[ImageDownLoader alloc] initWithURLString:[Global shareGlobal].currentUser.avatar delegate:self];
         }else{
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"不可以下载头像"
@@ -220,7 +219,13 @@
 
 -(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
 {
-    NSLog(@"图片下载失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - Memory management methods

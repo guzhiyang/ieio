@@ -30,7 +30,6 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"推送消息数组:%@",self.messageArray);
     [self getHeadImageURLArray];
     _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageURLArray count] delegate:self];
     
@@ -75,11 +74,9 @@
 -(void)reloadTableViewData
 {
     if ([self.messageArray count] == 0) {
-        NSLog(@"刷新数据!");
     }else{
         [_promptsMessageTableView visibleCells];
         [_promptsMessageTableView reloadData];
-        NSLog(@"已加载数据!");
     }
 }
 
@@ -101,7 +98,13 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"头像队列下载失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- UITableView datasource
@@ -222,7 +225,13 @@
 
 -(void)agreeInviewRequestDidFailed:(AgreeInviteRequest *)agreeInviteRequest error:(NSError *)error
 {
-    NSLog(@"添加好友失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 -(void)dismissView

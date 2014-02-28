@@ -46,7 +46,7 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] retain];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -71,6 +71,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

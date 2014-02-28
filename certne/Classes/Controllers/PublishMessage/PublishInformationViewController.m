@@ -95,7 +95,6 @@
             [_headImageURLArray addObject:headImageURL];
         }
         if (publicInfo.img != nil) {
-            NSLog(@"productImage:%@",publicInfo.img);
             NSString *productImageURL = publicInfo.img;
             [_productImageURLArray addObject:productImageURL];
         }
@@ -472,7 +471,13 @@
 
 -(void)GetFriendDetailInfoRequestDidFailed:(GetFriendDetailInfoRequest *)getFriendDetailInfoRequest error:(NSError *)error
 {
-    NSLog(@"GetFriendDetailInfoRequestDidFailed:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - ImageDownLoadQueue delegate methods
@@ -490,7 +495,13 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"图片下载队列失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - EgoRefreshTableViewData delegate methods
@@ -583,7 +594,13 @@
 
 -(void)getSupplyListRequestDidFailed:(GetSupplyListRequest *)getSupplyListRequest error:(NSError *)error
 {
-    NSLog(@"刷新供应信息失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - GetNeedListData delegate methods
@@ -605,7 +622,13 @@
 
 -(void)getNeedListRequestDidFailed:(GetNeedListRequest *)getNeedListRequest error:(NSError *)error
 {
-    NSLog(@"刷新需求信息失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - EditPublicInfoViewPop delegate methods

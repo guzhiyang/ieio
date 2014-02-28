@@ -22,7 +22,6 @@
 @property (nonatomic, retain) UILabel      *positionLabel;
 @property (nonatomic, retain) UILabel      *industryLabel;
 @property (nonatomic, retain) UILabel      *companyLabel;
-@property (nonatomic, retain) PromptsLabel  *promptsLabel;
 
 -(void)setFriendsInfo:(FriendsInfoListData *)friendsInfo indexPath:(NSIndexPath *)indexPath;
 -(void)setUserName:(NSString *)aName;

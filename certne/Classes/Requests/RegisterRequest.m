@@ -37,7 +37,7 @@
 {
     NSHTTPURLResponse *httpResponse=(NSHTTPURLResponse *)response;
     if (httpResponse.statusCode==200) {
-        _receivedData=[[NSMutableData alloc] retain];
+        _receivedData=[NSMutableData data];
     }
 }
 
@@ -72,7 +72,6 @@
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"error=%@",error.description);
     if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(connectionDidFailed:error:)]) {
         [_delegate connectionDidFailed:self error:error];
     }
@@ -93,6 +92,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData=nil;
     [super dealloc];
 }

@@ -41,24 +41,18 @@
 {
     NSHTTPURLResponse *httpResponse=(NSHTTPURLResponse *)response;
     if (httpResponse.statusCode==200) {
-        self.receivedData=[NSMutableData data];//--这个方法怎么写在这里了？得不到数据啊
+        self.receivedData = [NSMutableData data];
     }else{
     }
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-//    self.receivedData=[NSMutableData data];//--写在这里不正好嘛 //--写在这里也可以
     [self.receivedData appendData:data];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedSrring = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"登录获取信息:%@",receivedSrring);
-    [receivedSrring release];
-    
-    //--这个使用的是SBJSON解析
     LoginUserInfoParser *parser=[[LoginUserInfoParser alloc] init];
     id parserObject=[parser loginUserInfoParserWithJSONData:self.receivedData];
     

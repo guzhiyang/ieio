@@ -307,7 +307,6 @@
 {
     NSDate *date = [NSDate date];
     self.imageSaveKey = [NSString stringWithFormat:@"%d%d%.0f.png",[self getYearWithDate:date],[self getMonthDate:date],[[NSDate date] timeIntervalSince1970]];
-    NSLog(@"saveKey = %@",self.imageSaveKey);
     return self.imageSaveKey;
 }
 
@@ -380,7 +379,13 @@
 
 -(void)publishMessageRequestDidFailed:(PublishMessageRequest *)publishMessageRequest error:(NSError *)error
 {
-    NSLog(@"publishMessageRequestDidFailed:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发布失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - Memory menagement methods

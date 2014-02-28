@@ -34,8 +34,8 @@
 - (void)connection:(NSURLConnection *)theConnection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse   *httpResponse=(NSHTTPURLResponse *)response;
-    if (httpResponse.statusCode==200) {
-        self.receivedData=[[NSMutableData alloc] retain];
+    if (httpResponse.statusCode == 200) {
+        self.receivedData = [NSMutableData data];
     }else{
     }
 }
@@ -47,10 +47,6 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"获取的验证码::%@",receivedString);
-    [receivedString release];
-    
     CheckCodeParser *parser=[[CheckCodeParser alloc] init];
     id parserObject=[parser checkCodeResponseParserWithJSONData:self.receivedData];
     if ([[parserObject class] isSubclassOfClass:[NSError class]]) {

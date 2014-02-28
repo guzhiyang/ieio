@@ -123,13 +123,11 @@
 		180AB5A6185070A400578C61 /* DoExchangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AB5A5185070A400578C61 /* DoExchangeRequest.m */; };
 		180AB8AC17AF50F200A9C9F5 /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AB8AB17AF50F200A9C9F5 /* ContentView.m */; };
 		180AB8B217AF8F8500A9C9F5 /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AB8B117AF8F8500A9C9F5 /* Animation.m */; };
-		180BDD731842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD721842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.m */; };
 		180BDD7C1842E35500ED2F23 /* GetContactUserListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD7B1842E35500ED2F23 /* GetContactUserListRequest.m */; };
 		180BDD7F1842E37200ED2F23 /* AddToContactListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD7E1842E37200ED2F23 /* AddToContactListRequest.m */; };
 		180BDD821842E39600ED2F23 /* DeleteContactLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD811842E39600ED2F23 /* DeleteContactLogRequest.m */; };
 		180BDD851842E8EF00ED2F23 /* GetSupplyListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD841842E8EF00ED2F23 /* GetSupplyListRequest.m */; };
 		180BDD881842E90700ED2F23 /* GetNeedListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD871842E90700ED2F23 /* GetNeedListRequest.m */; };
-		180BDD8B1842E92C00ED2F23 /* CreatePublicMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD8A1842E92C00ED2F23 /* CreatePublicMessageRequest.m */; };
 		180BDD8E1842E95900ED2F23 /* SetPrivacyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD8D1842E95900ED2F23 /* SetPrivacyRequest.m */; };
 		180BDD911842E97E00ED2F23 /* ModifyPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD901842E97E00ED2F23 /* ModifyPasswordRequest.m */; };
 		180BDD941842E99800ED2F23 /* SendSuggestionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180BDD931842E99800ED2F23 /* SendSuggestionRequest.m */; };
@@ -146,10 +144,26 @@
 		180E8430185EF3D500E47E54 /* SetNewPswResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E842F185EF3D500E47E54 /* SetNewPswResponse.m */; };
 		180E8433185EF65000E47E54 /* SetNewPswResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E8432185EF65000E47E54 /* SetNewPswResponseParser.m */; };
 		180E8436185EFB4D00E47E54 /* SetNewPswRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E8435185EFB4D00E47E54 /* SetNewPswRequest.m */; };
+		180FD59218C092F3008485E6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FF9AE917699FD1002AE982 /* MapKit.framework */; };
+		180FD59318C092FE008485E6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DE18727073006540C1 /* Security.framework */; };
+		180FD59418C0930A008485E6 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DC18727064006540C1 /* libstdc++.6.0.9.dylib */; };
+		180FD59518C0931B008485E6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DA18727046006540C1 /* CoreTelephony.framework */; };
+		180FD59618C09326008485E6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5836C186ABEB600A4C791 /* CoreLocation.framework */; };
+		180FD59718C09333008485E6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F9024117866E100095F52D /* SystemConfiguration.framework */; };
+		180FD59818C0933E008485E6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE04170AA7E600A3BA8F /* Foundation.framework */; };
+		180FD59918C09347008485E6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE02170AA7E600A3BA8F /* UIKit.framework */; };
+		180FD59A18C09378008485E6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EF750F1749F56C009557FF /* QuartzCore.framework */; };
+		180FD59B18C09383008485E6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801913D17460CF100CCD0D5 /* AssetsLibrary.framework */; };
+		180FD59C18C0938D008485E6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1803DF3217AB5EB1005B1280 /* libz.dylib */; };
+		180FD59D18C0939F008485E6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891EFB817E05BC900558EAD /* libsqlite3.0.dylib */; };
+		180FD59E18C093A7008485E6 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DFAC0C18165F5A0016C69B /* CFNetwork.framework */; };
+		180FD59F18C093AE008485E6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DFAC0E18165FAA0016C69B /* MobileCoreServices.framework */; };
+		180FD5A018C093BE008485E6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE06170AA7E600A3BA8F /* CoreGraphics.framework */; };
+		180FD5A118C093D3008485E6 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1876AB39181FA0150032B21F /* libz.1.2.5.dylib */; };
+		180FD5A218C093DC008485E6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F80BCB1821F63D00504DD8 /* MessageUI.framework */; };
 		18128A1D17F275D000EF20B6 /* cover_product.png in Resources */ = {isa = PBXBuildFile; fileRef = 18128A1C17F275D000EF20B6 /* cover_product.png */; };
 		18128A1F17F2804B00EF20B6 /* product_headBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18128A1E17F2804B00EF20B6 /* product_headBg.png */; };
 		18128A2317F2B96600EF20B6 /* right_up_corner.png in Resources */ = {isa = PBXBuildFile; fileRef = 18128A2217F2B96600EF20B6 /* right_up_corner.png */; };
-		18232FC718B6F7E6009AAADC /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18232FC618B6F7E6009AAADC /* Reveal.framework */; };
 		1833F9F818542218003829E1 /* MyFriendsInfoList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F9F718542218003829E1 /* MyFriendsInfoList.m */; };
 		1833F9FB185448A2003829E1 /* FriendsInfoListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F9FA185448A2003829E1 /* FriendsInfoListData.m */; };
 		1833F9FE18545411003829E1 /* SystemSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F9FD18545411003829E1 /* SystemSet.m */; };
@@ -170,17 +184,13 @@
 		18910F5818B617C500E801CE /* pswCode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18910F5718B617C500E801CE /* pswCode@2x.png */; };
 		189A8FBB18A9F338001406F1 /* PushMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 189A8FBA18A9F338001406F1 /* PushMessage.m */; };
 		189A8FBE18A9F4B9001406F1 /* PushMessageDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 189A8FBD18A9F4B9001406F1 /* PushMessageDataBase.m */; };
-		18B2F3FD18BCAAAD00225F08 /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2F3F618BCAA7800225F08 /* libSDWebImage.a */; };
-		18B2F3FE18BCAAB600225F08 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2F3EB18BCA5AC00225F08 /* ImageIO.framework */; };
 		18B84C7A1855BBB200BA49BD /* ChangePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C6E1855BBB200BA49BD /* ChangePasswordView.m */; };
 		18B84C7B1855BBB200BA49BD /* PrivacySetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C701855BBB200BA49BD /* PrivacySetView.m */; };
 		18B84C7C1855BBB200BA49BD /* SendAdviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C721855BBB200BA49BD /* SendAdviceView.m */; };
 		18B84C7D1855BBB200BA49BD /* DeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C751855BBB200BA49BD /* DeviceView.m */; };
 		18B84C7E1855BBB200BA49BD /* PassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C771855BBB200BA49BD /* PassWordView.m */; };
 		18B84C7F1855BBB200BA49BD /* PrivacySettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C791855BBB200BA49BD /* PrivacySettingView.m */; };
-		18B84C821855BD2A00BA49BD /* RecommendFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C811855BD2A00BA49BD /* RecommendFriendsViewController.m */; };
 		18B84C891855C3C200BA49BD /* SideNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C881855C3C200BA49BD /* SideNavigationBar.m */; };
-		18B84C8C1855CB6500BA49BD /* AddressBookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B84C8B1855CB6500BA49BD /* AddressBookCell.m */; };
 		18C90DA31830DD10001C9960 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C90D8F1830DD10001C9960 /* GTMBase64.m */; };
 		18C90DA41830DD10001C9960 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C90D931830DD10001C9960 /* JSONKit.m */; };
 		18C90DA61830DD10001C9960 /* UpYun.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C90D971830DD10001C9960 /* UpYun.m */; };
@@ -238,23 +248,6 @@
 		18E97EF618AB0416001DDEC5 /* ReadNoticeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E97EF518AB0416001DDEC5 /* ReadNoticeRequest.m */; };
 		18E97EFC18AB1683001DDEC5 /* AgreeInviteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E97EFB18AB1683001DDEC5 /* AgreeInviteRequest.m */; };
 		18EA108018274DFF009111B8 /* RegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA107F18274DFF009111B8 /* RegisterRequest.m */; };
-		18EAA9C818726866006540C1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F80BCB1821F63D00504DD8 /* MessageUI.framework */; };
-		18EAA9C918726870006540C1 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1876AB39181FA0150032B21F /* libz.1.2.5.dylib */; };
-		18EAA9CA18726880006540C1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE06170AA7E600A3BA8F /* CoreGraphics.framework */; };
-		18EAA9CB1872688F006540C1 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DFAC0E18165FAA0016C69B /* MobileCoreServices.framework */; };
-		18EAA9CC18726898006540C1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DFAC0C18165F5A0016C69B /* CFNetwork.framework */; };
-		18EAA9CD187268A5006540C1 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891EFB817E05BC900558EAD /* libsqlite3.0.dylib */; };
-		18EAA9CE187268AF006540C1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1803DF3217AB5EB1005B1280 /* libz.dylib */; };
-		18EAA9CF187268BD006540C1 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801913D17460CF100CCD0D5 /* AssetsLibrary.framework */; };
-		18EAA9D0187268C6006540C1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FF9AE917699FD1002AE982 /* MapKit.framework */; };
-		18EAA9D1187268D4006540C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EF750F1749F56C009557FF /* QuartzCore.framework */; };
-		18EAA9D2187268E4006540C1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE02170AA7E600A3BA8F /* UIKit.framework */; };
-		18EAA9D3187268EF006540C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DBCE04170AA7E600A3BA8F /* Foundation.framework */; };
-		18EAA9D418726983006540C1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F9024117866E100095F52D /* SystemConfiguration.framework */; };
-		18EAA9D5187269CC006540C1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5836C186ABEB600A4C791 /* CoreLocation.framework */; };
-		18EAA9DB18727046006540C1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DA18727046006540C1 /* CoreTelephony.framework */; };
-		18EAA9DD18727064006540C1 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DC18727064006540C1 /* libstdc++.6.0.9.dylib */; };
-		18EAA9DF18727073006540C1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EAA9DE18727073006540C1 /* Security.framework */; };
 		18EBCD4917858C2C00A2751C /* btn_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBCD4817858C2C00A2751C /* btn_test.png */; };
 		18EBF7AF1845D4C600FA8B84 /* CheckCodeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EBF7AE1845D4C600FA8B84 /* CheckCodeResponse.m */; };
 		18EBF7B21845D5C800FA8B84 /* CheckCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EBF7B11845D5C800FA8B84 /* CheckCodeRequest.m */; };
@@ -458,7 +451,6 @@
 		18F598FD17D9B4B900EC3A35 /* xiaoyun.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F598F617D9B4B900EC3A35 /* xiaoyun.png */; };
 		18F598FE17D9B4B900EC3A35 /* xunge.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F598F717D9B4B900EC3A35 /* xunge.png */; };
 		18F598FF17D9B4B900EC3A35 /* zhiying.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F598F817D9B4B900EC3A35 /* zhiying.png */; };
-		18F683481842D92E00263B4D /* CardExchangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F683471842D92E00263B4D /* CardExchangeRequest.m */; };
 		18F6834B1842D95300263B4D /* CardDoExchangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6834A1842D95300263B4D /* CardDoExchangeRequest.m */; };
 		18F6834E1842D97600263B4D /* GetMyFriendsInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6834D1842D97600263B4D /* GetMyFriendsInfoRequest.m */; };
 		18F6F50B178A568300BA50CF /* NotOnline.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F6F50A178A568300BA50CF /* NotOnline.png */; };
@@ -526,37 +518,6 @@
 		18FF9B031769D132002AE982 /* yifei.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FF9AF81769D132002AE982 /* yifei.png */; };
 		18FF9B041769D132002AE982 /* yixun.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FF9AF91769D132002AE982 /* yixun.png */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		18B2F3F518BCAA7800225F08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 53922D6F148C55820056699D;
-			remoteInfo = SDWebImage;
-		};
-		18B2F3F718BCAA7800225F08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 53761325155AD0D5005750A4;
-			remoteInfo = "SDWebImage ARC";
-		};
-		18B2F3F918BCAA7800225F08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 531041E0157EAFA400BBABC3;
-			remoteInfo = "SDWebImage ARC+MKAnnotation";
-		};
-		18B2F3FB18BCAAA700225F08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 53922D6E148C55810056699D;
-			remoteInfo = SDWebImage;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		18009E1C188F545600E752E3 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
@@ -734,8 +695,6 @@
 		180AB8AB17AF50F200A9C9F5 /* ContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentView.m; sourceTree = "<group>"; };
 		180AB8B017AF8F8400A9C9F5 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		180AB8B117AF8F8500A9C9F5 /* Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animation.m; sourceTree = "<group>"; };
-		180BDD711842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetMyFriendsSupplyInfoRequest.h; sourceTree = "<group>"; };
-		180BDD721842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMyFriendsSupplyInfoRequest.m; sourceTree = "<group>"; };
 		180BDD7A1842E35500ED2F23 /* GetContactUserListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetContactUserListRequest.h; sourceTree = "<group>"; };
 		180BDD7B1842E35500ED2F23 /* GetContactUserListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetContactUserListRequest.m; sourceTree = "<group>"; };
 		180BDD7D1842E37200ED2F23 /* AddToContactListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToContactListRequest.h; sourceTree = "<group>"; };
@@ -746,8 +705,6 @@
 		180BDD841842E8EF00ED2F23 /* GetSupplyListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSupplyListRequest.m; sourceTree = "<group>"; };
 		180BDD861842E90700ED2F23 /* GetNeedListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetNeedListRequest.h; sourceTree = "<group>"; };
 		180BDD871842E90700ED2F23 /* GetNeedListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetNeedListRequest.m; sourceTree = "<group>"; };
-		180BDD891842E92C00ED2F23 /* CreatePublicMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatePublicMessageRequest.h; sourceTree = "<group>"; };
-		180BDD8A1842E92C00ED2F23 /* CreatePublicMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreatePublicMessageRequest.m; sourceTree = "<group>"; };
 		180BDD8C1842E95900ED2F23 /* SetPrivacyRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPrivacyRequest.h; sourceTree = "<group>"; };
 		180BDD8D1842E95900ED2F23 /* SetPrivacyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPrivacyRequest.m; sourceTree = "<group>"; };
 		180BDD8F1842E97E00ED2F23 /* ModifyPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyPasswordRequest.h; sourceTree = "<group>"; };
@@ -815,7 +772,6 @@
 		189A8FBC18A9F4B9001406F1 /* PushMessageDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushMessageDataBase.h; sourceTree = "<group>"; };
 		189A8FBD18A9F4B9001406F1 /* PushMessageDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushMessageDataBase.m; sourceTree = "<group>"; };
 		18B2F3EB18BCA5AC00225F08 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDWebImage.xcodeproj; path = "../../图像处理/SDWebImage-ARC/SDWebImage-2.0-compat/SDWebImage.xcodeproj"; sourceTree = "<group>"; };
 		18B84C6D1855BBB200BA49BD /* ChangePasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordView.h; sourceTree = "<group>"; };
 		18B84C6E1855BBB200BA49BD /* ChangePasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordView.m; sourceTree = "<group>"; };
 		18B84C6F1855BBB200BA49BD /* PrivacySetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacySetView.h; sourceTree = "<group>"; };
@@ -828,12 +784,8 @@
 		18B84C771855BBB200BA49BD /* PassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassWordView.m; sourceTree = "<group>"; };
 		18B84C781855BBB200BA49BD /* PrivacySettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacySettingView.h; sourceTree = "<group>"; };
 		18B84C791855BBB200BA49BD /* PrivacySettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivacySettingView.m; sourceTree = "<group>"; };
-		18B84C801855BD2A00BA49BD /* RecommendFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendFriendsViewController.h; sourceTree = "<group>"; };
-		18B84C811855BD2A00BA49BD /* RecommendFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendFriendsViewController.m; sourceTree = "<group>"; };
 		18B84C871855C3C200BA49BD /* SideNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideNavigationBar.h; sourceTree = "<group>"; };
 		18B84C881855C3C200BA49BD /* SideNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideNavigationBar.m; sourceTree = "<group>"; };
-		18B84C8A1855CB6500BA49BD /* AddressBookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookCell.h; sourceTree = "<group>"; };
-		18B84C8B1855CB6500BA49BD /* AddressBookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressBookCell.m; sourceTree = "<group>"; };
 		18C90D8E1830DD10001C9960 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		18C90D8F1830DD10001C9960 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		18C90D901830DD10001C9960 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
@@ -1185,8 +1137,6 @@
 		18F598F617D9B4B900EC3A35 /* xiaoyun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xiaoyun.png; sourceTree = "<group>"; };
 		18F598F717D9B4B900EC3A35 /* xunge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xunge.png; sourceTree = "<group>"; };
 		18F598F817D9B4B900EC3A35 /* zhiying.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhiying.png; sourceTree = "<group>"; };
-		18F683461842D92E00263B4D /* CardExchangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardExchangeRequest.h; sourceTree = "<group>"; };
-		18F683471842D92E00263B4D /* CardExchangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardExchangeRequest.m; sourceTree = "<group>"; };
 		18F683491842D95300263B4D /* CardDoExchangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDoExchangeRequest.h; sourceTree = "<group>"; };
 		18F6834A1842D95300263B4D /* CardDoExchangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDoExchangeRequest.m; sourceTree = "<group>"; };
 		18F6834C1842D97600263B4D /* GetMyFriendsInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetMyFriendsInfoRequest.h; sourceTree = "<group>"; };
@@ -1277,30 +1227,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7403A9EF1872669400CC41D7 /* Frameworks */ = {
+		180FD59018C0926B008485E6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18B2F3FE18BCAAB600225F08 /* ImageIO.framework in Frameworks */,
-				18B2F3FD18BCAAAD00225F08 /* libSDWebImage.a in Frameworks */,
-				18EAA9D0187268C6006540C1 /* MapKit.framework in Frameworks */,
-				18EAA9DF18727073006540C1 /* Security.framework in Frameworks */,
-				18EAA9DD18727064006540C1 /* libstdc++.6.0.9.dylib in Frameworks */,
-				18232FC718B6F7E6009AAADC /* Reveal.framework in Frameworks */,
-				18EAA9DB18727046006540C1 /* CoreTelephony.framework in Frameworks */,
-				18EAA9D5187269CC006540C1 /* CoreLocation.framework in Frameworks */,
-				18EAA9D418726983006540C1 /* SystemConfiguration.framework in Frameworks */,
-				18EAA9D3187268EF006540C1 /* Foundation.framework in Frameworks */,
-				18EAA9D2187268E4006540C1 /* UIKit.framework in Frameworks */,
-				18EAA9D1187268D4006540C1 /* QuartzCore.framework in Frameworks */,
-				18EAA9CF187268BD006540C1 /* AssetsLibrary.framework in Frameworks */,
-				18EAA9CE187268AF006540C1 /* libz.dylib in Frameworks */,
-				18EAA9CD187268A5006540C1 /* libsqlite3.0.dylib in Frameworks */,
-				18EAA9CC18726898006540C1 /* CFNetwork.framework in Frameworks */,
-				18EAA9CB1872688F006540C1 /* MobileCoreServices.framework in Frameworks */,
-				18EAA9CA18726880006540C1 /* CoreGraphics.framework in Frameworks */,
-				18EAA9C918726870006540C1 /* libz.1.2.5.dylib in Frameworks */,
-				18EAA9C818726866006540C1 /* MessageUI.framework in Frameworks */,
+				180FD5A218C093DC008485E6 /* MessageUI.framework in Frameworks */,
+				180FD5A118C093D3008485E6 /* libz.1.2.5.dylib in Frameworks */,
+				180FD5A018C093BE008485E6 /* CoreGraphics.framework in Frameworks */,
+				180FD59F18C093AE008485E6 /* MobileCoreServices.framework in Frameworks */,
+				180FD59E18C093A7008485E6 /* CFNetwork.framework in Frameworks */,
+				180FD59D18C0939F008485E6 /* libsqlite3.0.dylib in Frameworks */,
+				180FD59C18C0938D008485E6 /* libz.dylib in Frameworks */,
+				180FD59B18C09383008485E6 /* AssetsLibrary.framework in Frameworks */,
+				180FD59A18C09378008485E6 /* QuartzCore.framework in Frameworks */,
+				180FD59918C09347008485E6 /* UIKit.framework in Frameworks */,
+				180FD59818C0933E008485E6 /* Foundation.framework in Frameworks */,
+				180FD59718C09333008485E6 /* SystemConfiguration.framework in Frameworks */,
+				180FD59618C09326008485E6 /* CoreLocation.framework in Frameworks */,
+				180FD59518C0931B008485E6 /* CoreTelephony.framework in Frameworks */,
+				180FD59418C0930A008485E6 /* libstdc++.6.0.9.dylib in Frameworks */,
+				180FD59318C092FE008485E6 /* Security.framework in Frameworks */,
+				180FD59218C092F3008485E6 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,8 +1386,6 @@
 			children = (
 				180289BC17F00C0100531029 /* SystemSettingViewController.h */,
 				180289BD17F00C0100531029 /* SystemSettingViewController.m */,
-				18B84C801855BD2A00BA49BD /* RecommendFriendsViewController.h */,
-				18B84C811855BD2A00BA49BD /* RecommendFriendsViewController.m */,
 			);
 			path = SystemSetting;
 			sourceTree = "<group>";
@@ -1575,16 +1520,6 @@
 			path = icon_sideBar;
 			sourceTree = "<group>";
 		};
-		18B2F3EF18BCAA7700225F08 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				18B2F3F618BCAA7800225F08 /* libSDWebImage.a */,
-				18B2F3F818BCAA7800225F08 /* libSDWebImage.a */,
-				18B2F3FA18BCAA7800225F08 /* libSDWebImageARC+MKAnnotation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		18B84C6B1855BBB200BA49BD /* SystemSettingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1673,7 +1608,6 @@
 		18DBA71D175C4087007FD93D /* certne */ = {
 			isa = PBXGroup;
 			children = (
-				18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */,
 				18DBA71E175C4087007FD93D /* Classes */,
 				18DBA755175C4087007FD93D /* Resources */,
 				18DBA78E175C4087007FD93D /* Supporting Files */,
@@ -1756,8 +1690,6 @@
 				18DBA72C175C4087007FD93D /* setMessageCell.m */,
 				18E35E931817BE6400DA47F9 /* UserDetailMessageCardCell.h */,
 				18E35E941817BE6400DA47F9 /* UserDetailMessageCardCell.m */,
-				18B84C8A1855CB6500BA49BD /* AddressBookCell.h */,
-				18B84C8B1855CB6500BA49BD /* AddressBookCell.m */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -1930,12 +1862,8 @@
 				180BDD7E1842E37200ED2F23 /* AddToContactListRequest.m */,
 				18F683491842D95300263B4D /* CardDoExchangeRequest.h */,
 				18F6834A1842D95300263B4D /* CardDoExchangeRequest.m */,
-				18F683461842D92E00263B4D /* CardExchangeRequest.h */,
-				18F683471842D92E00263B4D /* CardExchangeRequest.m */,
 				18EBF7B01845D5C800FA8B84 /* CheckCodeRequest.h */,
 				18EBF7B11845D5C800FA8B84 /* CheckCodeRequest.m */,
-				180BDD891842E92C00ED2F23 /* CreatePublicMessageRequest.h */,
-				180BDD8A1842E92C00ED2F23 /* CreatePublicMessageRequest.m */,
 				180BDD801842E39600ED2F23 /* DeleteContactLogRequest.h */,
 				180BDD811842E39600ED2F23 /* DeleteContactLogRequest.m */,
 				180AB5A4185070A400578C61 /* DoExchangeRequest.h */,
@@ -1950,8 +1878,6 @@
 				180A621B185815F60003706B /* GetFriendDetailInfoRequest.m */,
 				18F6834C1842D97600263B4D /* GetMyFriendsInfoRequest.h */,
 				18F6834D1842D97600263B4D /* GetMyFriendsInfoRequest.m */,
-				180BDD711842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.h */,
-				180BDD721842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.m */,
 				1803AB6B185991B8001CF9C2 /* GetNearbyUserListRequest.h */,
 				1803AB6C185991B8001CF9C2 /* GetNearbyUserListRequest.m */,
 				180BDD861842E90700ED2F23 /* GetNeedListRequest.h */,
@@ -2534,14 +2460,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18DBCE22170AA7E600A3BA8F /* Build configuration list for PBXNativeTarget "certne" */;
 			buildPhases = (
-				7403A9EF1872669400CC41D7 /* Frameworks */,
 				18DBCDFD170AA7E600A3BA8F /* Resources */,
 				18DBCDFB170AA7E600A3BA8F /* Sources */,
+				180FD59018C0926B008485E6 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				18B2F3FC18BCAAA700225F08 /* PBXTargetDependency */,
 			);
 			name = certne;
 			productName = certne;
@@ -2568,42 +2493,12 @@
 			mainGroup = 18DBCDF6170AA7E600A3BA8F;
 			productRefGroup = 18DBCE00170AA7E600A3BA8F /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 18B2F3EF18BCAA7700225F08 /* Products */;
-					ProjectRef = 18B2F3EE18BCAA7700225F08 /* SDWebImage.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				18DBCDFE170AA7E600A3BA8F /* certne */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		18B2F3F618BCAA7800225F08 /* libSDWebImage.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSDWebImage.a;
-			remoteRef = 18B2F3F518BCAA7800225F08 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		18B2F3F818BCAA7800225F08 /* libSDWebImage.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSDWebImage.a;
-			remoteRef = 18B2F3F718BCAA7800225F08 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		18B2F3FA18BCAA7800225F08 /* libSDWebImageARC+MKAnnotation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libSDWebImageARC+MKAnnotation.a";
-			remoteRef = 18B2F3F918BCAA7800225F08 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		18DBCDFD170AA7E600A3BA8F /* Resources */ = {
@@ -2960,7 +2855,6 @@
 				180A621C185815F60003706B /* GetFriendDetailInfoRequest.m in Sources */,
 				18F3756717A91FAF004825E6 /* EGORefreshTableHeaderView.m in Sources */,
 				180E8430185EF3D500E47E54 /* SetNewPswResponse.m in Sources */,
-				180BDD8B1842E92C00ED2F23 /* CreatePublicMessageRequest.m in Sources */,
 				1803DEF417AB507F005B1280 /* Global.m in Sources */,
 				1803DF1917AB54D0005B1280 /* NSObject+SBJson.m in Sources */,
 				18F7885A1810D13700F1702E /* ChangeCardViewController.m in Sources */,
@@ -2992,7 +2886,6 @@
 				18F814E5186BF3440077B4B7 /* SessionIDDatabase.m in Sources */,
 				1803DF2317AB54D0005B1280 /* SBJsonUTF8Stream.m in Sources */,
 				1803AB761859BB08001CF9C2 /* SayHelloResponseParser.m in Sources */,
-				18B84C8C1855CB6500BA49BD /* AddressBookCell.m in Sources */,
 				18FDC3A61820E0D5004C4271 /* PaddingTextField.m in Sources */,
 				18F469D7184DD9550082D986 /* SaveUserInfoRequest.m in Sources */,
 				18F6834E1842D97600263B4D /* GetMyFriendsInfoRequest.m in Sources */,
@@ -3002,7 +2895,6 @@
 				1803DF3017AB5E69005B1280 /* TBXML+HTTP.m in Sources */,
 				1803DF3117AB5E69005B1280 /* TBXML.m in Sources */,
 				1803DF3617AB5F79005B1280 /* LoginRequest.m in Sources */,
-				18F683481842D92E00263B4D /* CardExchangeRequest.m in Sources */,
 				180E8427185EC48B00E47E54 /* FindPswRequest.m in Sources */,
 				180AB8AC17AF50F200A9C9F5 /* ContentView.m in Sources */,
 				18EFC6E5185AB4A500BADDDD /* RecentContactUserList.m in Sources */,
@@ -3042,7 +2934,6 @@
 				18EF275C17DF0F4C009694DD /* CCUserDataBase.m in Sources */,
 				1803D36F1883F8DC00E0B3F3 /* NavBarView.m in Sources */,
 				18D5EDA017E93FF600C89641 /* PublicMessageCell.m in Sources */,
-				180BDD731842E27600ED2F23 /* GetMyFriendsSupplyInfoRequest.m in Sources */,
 				1806F59A1860217F00173DC0 /* StatusResponseParser.m in Sources */,
 				180A69661896688E00A36CFD /* Data.m in Sources */,
 				18F26DFA181A3F7600BEA56C /* QBKOverlayMenuView.m in Sources */,
@@ -3051,7 +2942,6 @@
 				18E97EFC18AB1683001DDEC5 /* AgreeInviteRequest.m in Sources */,
 				18EFC6EE185AF4CE00BADDDD /* PublicInfoResponse.m in Sources */,
 				180289C817F00C0100531029 /* AuthCodeViewController.m in Sources */,
-				18B84C821855BD2A00BA49BD /* RecommendFriendsViewController.m in Sources */,
 				180AB5A6185070A400578C61 /* DoExchangeRequest.m in Sources */,
 				180289C917F00C0100531029 /* LoadingViewController.m in Sources */,
 				180DE0671856E9F2004499DD /* FindPasswordViewController.m in Sources */,
@@ -3122,14 +3012,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		18B2F3FC18BCAAA700225F08 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SDWebImage;
-			targetProxy = 18B2F3FB18BCAAA700225F08 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		18DBCE20170AA7E600A3BA8F /* Debug */ = {

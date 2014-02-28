@@ -7,7 +7,6 @@
 //
 
 #import "SystemSettingViewController.h"
-#import "RecommendFriendsViewController.h"
 #import "PrivacySetView.h"
 #import "ChangePasswordView.h"
 #import "SendAdviceView.h"
@@ -326,13 +325,6 @@
 -(void)searchMeByMobile
 {
     //--通过手机查询好友
-}
-
--(void)recommendFriend
-{
-    //--推荐通讯录好友
-    RecommendFriendsViewController *recommendFriendsViewController = [[RecommendFriendsViewController alloc] init];
-    [self.navigationController pushViewController:recommendFriendsViewController animated:NO];
 }
 
 #pragma mark- Memory management methods

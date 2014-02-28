@@ -103,8 +103,6 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"重新加载了一遍！");
-    
     _headImageDownQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageArray count] delegate:self];
     
     _myFriendsArray = [[NSMutableArray alloc] init];
@@ -218,14 +216,12 @@
 {
     //--将图片保存成.png格式--不能在这里保存，取不到size，
     [_headImageDic setObject:[UIImage imageWithData:imageData] forKey:imageURL];
-//    [_headImageDic setObject:UIImagePNGRepresentation([UIImage imageWithData:imageData]) forKey:imageURL];
     [_connectionTableView visibleCells];
     [_connectionTableView reloadData];
 }
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"获取头像失败:%@",error);
 }
 
 #pragma mark - SearchFriend event methods
@@ -233,26 +229,32 @@
 -(void)searchFriend:(id)sender
 {
     [_searchTextField resignFirstResponder];
-    //搜索好友功能实现
     
-//    //-------------查询好友
-//    NSDictionary *userData;
-//    for (int i=0; i<[_myConnections count]; i++) {
-//         userData=[_myConnections objectAtIndex:i];
-//    }
-//    
-//    NSString *userName = _searchTextField.text;
-//    NSLog(@"userName=%@",userName);
-//    
-////    userName=[userData objectForKey:@"name"];//----
-//    for (NSString *key in _myConnections) {
-//        NSPredicate *apredicate=[NSPredicate predicateWithFormat:@"SELF.name like %@",userName];
-//        
-//        NSArray *newArray=[[NSArray alloc]init];
-//        newArray=[(NSArray *)_myConnections filteredArrayUsingPredicate:apredicate];
-//        [_myConnections setValue:newArray forKey:key];//-----这一行有错误
-//        [self.connectionTableView reloadData];
-//    }
+    NSMutableArray *searchUserArray = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (NSInteger i = 0; i < [_myFriendsArray count]; i++) {
+        FriendDetailData *friendData = [_myFriendsArray objectAtIndex:i];
+        if ([friendData.name isEqualToString:_searchTextField.text]) {
+            [searchUserArray addObject:friendData];
+        }
+    }
+    
+    if ([searchUserArray count] > 0) {
+        [_myFriendsArray removeAllObjects];
+        for (NSInteger m = 0; m < [searchUserArray count]; m++) {
+            FriendDetailData *friendData = [searchUserArray objectAtIndex:m];
+            [_myFriendsArray addObject:friendData];
+        }
+        [_connectionTableView reloadData];
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有您搜索的名字"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
 }
 
 #pragma mark-UITextfield delegate methods
@@ -260,6 +262,33 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    
+    NSMutableArray *searchUserArray = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (NSInteger i = 0; i < [_myFriendsArray count]; i++) {
+        FriendDetailData *friendData = [_myFriendsArray objectAtIndex:i];
+        if ([friendData.name isEqualToString:_searchTextField.text]) {
+            [searchUserArray addObject:friendData];
+        }
+    }
+    
+    if ([searchUserArray count] > 0) {
+        [_myFriendsArray removeAllObjects];
+        for (NSInteger m = 0; m < [searchUserArray count]; m++) {
+            FriendDetailData *friendData = [searchUserArray objectAtIndex:m];
+            [_myFriendsArray addObject:friendData];
+        }
+        [_connectionTableView reloadData];
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有您搜索的名字"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+
     return YES;
 }
 
@@ -396,7 +425,6 @@
 
 -(void)GetFriendDetailInfoRequestDidFailed:(GetFriendDetailInfoRequest *)getFriendDetailInfoRequest error:(NSError *)error
 {
-    NSLog(@"GetFriendDetailInfoRequestDidFailed:%@",error);
 }
 
 #pragma mark- UIScrollViewDelegate methods

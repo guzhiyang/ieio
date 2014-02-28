@@ -46,7 +46,7 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] retain];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -74,13 +74,13 @@
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"SetPrivacyRequestDidFailed = %@",error);
 }
 
 #pragma mark - Memory menagement methods
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

@@ -44,7 +44,7 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        self.receivedData = [[NSMutableData alloc] init];
+        self.receivedData = [NSMutableData data];
     }
 }
 
@@ -55,10 +55,6 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"附近好友 列表:%@",receivedString);
-    [receivedString release];
-    
     NearbyUserListParser *parser = [[NearbyUserListParser alloc] init];
     id parserObject = [parser NearbyUserListParserWithJsonData:self.receivedData];
     
@@ -86,6 +82,7 @@
 
 -(void)dealloc
 {
+    [self cancle];
     self.receivedData = nil;
     [super dealloc];
 }

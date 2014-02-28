@@ -69,7 +69,7 @@
     [submitButton addTarget:self action:@selector(submitTheCode) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitButton];
     
-    self.view.backgroundColor = [UIColor colorWithRed:240/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f];
+    self.view.backgroundColor = UIColorFromFloat(240, 240, 240);
 }
 
 #pragma mark - Custom event methods
@@ -86,7 +86,12 @@
 
 -(void)getAuthCode
 {
-    NSLog(@"重新请求");
+    if (_findPswRequest == nil) {
+        _findPswRequest = [[FindPswRequest alloc] init];
+        _findPswRequest.delegate = self;
+    }
+    
+    [_findPswRequest sendFindPswRequestWithMobile:[Global shareGlobal].mobile];
 }
 
 #pragma mark - navBarView delegate methods
@@ -105,13 +110,51 @@
         setNewPswViewController.code = [self.authCodeTextField.text integerValue];
         [self.navigationController pushViewController:setNewPswViewController animated:YES];
     }else if (sayHelloResponse.status == 0){
-        NSLog(@"验证失败!");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"验证失败!"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
     }
 }
 
 -(void)newPswCheckRequestDidFialed:(NewPswCheckRequest *)newPswCheckRequest error:(NSError *)error
 {
-    NSLog(@"error = %@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+}
+
+#pragma mark - FindPassword delegate methods
+
+-(void)FindPswRequestDidFinished:(FindPswRequest *)findPswRequest findPswResponse:(FindPswResponse *)findPswResponse
+{
+    if (findPswResponse.status == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取验证码失败!"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+}
+
+-(void)FindPswRequestDIdFailed:(FindPswRequest *)findPswRequest error:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - UITextField delegate methods

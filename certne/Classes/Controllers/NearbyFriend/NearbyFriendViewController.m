@@ -116,8 +116,6 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"重新加载界面!");
-    
     [self getPushMessage];
     
     _headImageQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:1 delegate:self];
@@ -250,7 +248,13 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    NSLog(@"下载图片失败:%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- tableView datasource
@@ -406,7 +410,13 @@
 
 -(void)GetNearbyUserListRequestDidFailed:(GetNearbyUserListRequest *)getNearbyUserListRequest error:(NSError *)error
 {
-    NSLog(@"请求附近的好友失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - ReadNoticeRequest delegate methods
@@ -417,7 +427,6 @@
         _chatMessageLabel.hidden = YES;
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         
-        //--弹出信息界面
         _promptsMessageViewController.messageArray = self.pushMessageArray;
         BOOL success =[self clearPushMessage];
         if (success) {
@@ -444,7 +453,13 @@
 
 -(void)readNoticeRequestDidFailed:(ReadNoticeRequest *)readNoticeRequest error:(NSError *)error
 {
-    NSLog(@"读取推送消息失败!");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark- memroy Management methods

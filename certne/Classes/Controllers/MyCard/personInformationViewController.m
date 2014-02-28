@@ -233,7 +233,6 @@
         sessoionID.name       = self.userInfoScrollView.nameTextField.text;
         sessoionID.mobile     = self.userInfoScrollView.mobileTextField.text;
         if (self.imageURL != nil) {
-            NSLog(@"最新的头像地址:%@",self.imageURL);
             sessoionID.avatar = self.imageURL;
         }else{
             sessoionID.avatar = [Global shareGlobal].currentUser.avatar;
@@ -268,7 +267,13 @@
 
 -(void)SaveUserInfoRequestDidFailed:(SaveUserInfoRequest *)saveUserInfoRequest error:(NSError *)error
 {
-    NSLog(@"error=%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - UIScrollView delegate methods
@@ -321,7 +326,6 @@
 
 -(void)upYun:(UpYun *)upYun requestDidSucceedWithResult:(id)result
 {
-    NSLog(@"上传成功 保存路径:%@",self.imageSaveKey);
     _getHeadImageSuccess = YES;
     self.imageURL = [NSString stringWithFormat:@"http://bcn-image.b0.upaiyun.com/%@",self.imageSaveKey];
     [self sendSaveUserInfoRequestWithHeadImageURL:self.imageURL];
@@ -334,7 +338,6 @@
 
 -(void)upYun:(UpYun *)upYun requestDidFailWithError:(NSError *)error
 {
-    NSLog(@"error=%@",error);
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"上传失败"
                                                       message:nil
                                                      delegate:self

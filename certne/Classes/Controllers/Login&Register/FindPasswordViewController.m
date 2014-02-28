@@ -82,8 +82,6 @@
 
 -(void)getPsw
 {
-    //--用户输入电话号码自动加86，区分地区；此功能暂时不做
-//    NSString *mobielString = [NSString stringWithFormat:@"+86%@",self.mobileNumTextField.text];
     [Global shareGlobal].mobile = self.mobileNumTextField.text;
     
     if (_findPswRequest == nil) {
@@ -122,7 +120,13 @@
 
 -(void)FindPswRequestDIdFailed:(FindPswRequest *)findPswRequest error:(NSError *)error
 {
-    NSLog(@"FindPswRequestDIdFailed :%@",error);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+                                                        message:@"请检查网络设置"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好的"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark - UITextField delegate methods

@@ -8,10 +8,10 @@
 
 #import "UIKeyboardViewController.h"
 
-static CGFloat kboardHeight = 254.0f;
+static CGFloat kboardHeight          = 254.0f;
 static CGFloat keyBoardToolbarHeight = 38.0f;
-static CGFloat spacerY = 10.0f;
-static CGFloat viewFrameY = 0;
+static CGFloat spacerY               = 10.0f;
+static CGFloat viewFrameY            = 0;
 
 @interface UIKeyboardViewController () 
 
