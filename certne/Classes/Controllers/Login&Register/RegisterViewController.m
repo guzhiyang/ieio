@@ -38,7 +38,6 @@
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"欢迎注册"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     UIImage *buttonBgImage=[UIImage imageNamed:@"button_green.png"];
     buttonBgImage=[buttonBgImage stretchableImageWithLeftCapWidth:10 topCapHeight:5];
@@ -50,7 +49,6 @@
     tipsLabel.textAlignment   = NSTextAlignmentLeft;
     tipsLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:tipsLabel];
-    [tipsLabel release];
     
     UILabel *textLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 129, 200, 20)];
     textLabel.font            = [UIFont fontWithName:FONTNAME size:15];
@@ -58,7 +56,6 @@
     textLabel.textAlignment   = NSTextAlignmentLeft;
     textLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:textLabel];
-    [textLabel release];
     
     _inputNumberTextField=[[UITextField alloc]initWithFrame:CGRectMake(20, 154, 280, 38)];
     _inputNumberTextField.placeholder       = @"例如:13223232421";
@@ -72,7 +69,6 @@
     _inputNumberTextField.backgroundColor=[UIColor whiteColor];
     _inputNumberTextField.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
     [self.view addSubview:_inputNumberTextField];
-    [_inputNumberTextField release];
     [_inputNumberTextField becomeFirstResponder];//--打开界面直接弹出键盘
     
     UILabel  *psdTextlabel=[[UILabel alloc] initWithFrame:CGRectMake(20, 197, 280, 20)];
@@ -81,7 +77,6 @@
     psdTextlabel.textAlignment=NSTextAlignmentLeft;
     psdTextlabel.backgroundColor=[UIColor clearColor];
     [self.view addSubview:psdTextlabel];
-    [psdTextlabel release];
     
     _inputPasswordTextField=[[UITextField alloc] initWithFrame:CGRectMake(20, 222, 280, 38)];
     _inputPasswordTextField.placeholder=@"您的密码";
@@ -94,7 +89,6 @@
     _inputPasswordTextField.backgroundColor=[UIColor whiteColor];
     _inputPasswordTextField.returnKeyType=UIReturnKeyDone;
     [self.view addSubview:_inputPasswordTextField];
-    [_inputPasswordTextField release];
     
     _sendRequestButton=[UIButton buttonWithType:UIButtonTypeCustom];
     _sendRequestButton.frame=CGRectMake(20, 270, 280, 38);
@@ -111,7 +105,6 @@
     _countDownLabel.layer.cornerRadius = 4.0f;
     _countDownLabel.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
     [self.view addSubview:_countDownLabel];
-    [_countDownLabel release];
     
     self.view.backgroundColor=[UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0f];
 }
@@ -127,9 +120,8 @@
                                                cancelButtonTitle:@"好的"
                                                otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
-        if (_registerRequest==nil) {
+        if (_registerRequest == nil) {
             _registerRequest=[[RegisterRequest alloc] init];
             _registerRequest.delegate=self;
         }
@@ -138,7 +130,10 @@
         NSString *password = _inputPasswordTextField.text;
         [_registerRequest sendRegiseterMoileNumber:phoneNum password:password];
     }
-    [_inputNumberTextField resignFirstResponder];
+    
+    if ([_inputNumberTextField isFirstResponder]) {
+        [_inputNumberTextField resignFirstResponder];
+    }
 }
 
 -(void)countDown:(NSTimer *)timer
@@ -150,7 +145,6 @@
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"mm:ss"];
     NSString *dateString=[dateFormatter stringFromDate:date];
-    [dateFormatter release];
     
     static int minute;
     static int second;
@@ -164,7 +158,6 @@
     [endTime setMinute:minute];
     [endTime setSecond:second];
     NSDate *todate=[calendar dateFromComponents:endTime];
-    [endTime release];
     
     unsigned int unitFlags=NSMinuteCalendarUnit|NSSecondCalendarUnit;
     
@@ -189,7 +182,7 @@
 
 -(void)connectionDidFinisnedWithRegister:(RegisterRequest *)registerRequest registerResponse:(RegisterResponse *)registerResponse
 {
-    self.registerResponse=registerResponse;
+    self.registerResponse = registerResponse;
     
     if (registerResponse.status==1) {
         //--如果得到验证码，即转向验证码界面
@@ -201,7 +194,6 @@
                                                 cancelButtonTitle:@"好的"
                                                 otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         _countDownLabel.hidden=NO;
         
@@ -220,9 +212,9 @@
 
 -(void)loadAuthCodeViewController
 {
-    AuthCodeViewController *authCodeViewController=[[[AuthCodeViewController alloc]init] autorelease];
-    authCodeViewController.code=self.registerResponse.code;
-    authCodeViewController.mobile=self.inputNumberTextField.text;
+    AuthCodeViewController *authCodeViewController=[[AuthCodeViewController alloc]init];
+    authCodeViewController.code   = self.registerResponse.code;
+    authCodeViewController.mobile = self.inputNumberTextField.text;
     [self.navigationController pushViewController:authCodeViewController animated:YES];
 }
 
@@ -257,8 +249,6 @@
 
 - (void)dealloc
 {
-    [_registerRequest release];
-    [super dealloc];
 }
 
 @end

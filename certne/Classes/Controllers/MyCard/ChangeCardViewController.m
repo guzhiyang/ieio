@@ -61,7 +61,6 @@
         }
         
         [_userArray addObject:cardListData];
-        [cardListData release];
     }
 }
 
@@ -93,23 +92,23 @@
 {
     [super viewDidLoad];
     
+    self.navigationController.navigationBarHidden = NO;
+    
     //--获取交换名片的用户信息
     [self crerateUserData];
     [self getHeadImageURLArray];
-    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[self.headImageURLArray count] delegate:self];
+//    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[self.headImageURLArray count] delegate:self];
     
     _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"交换名片"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     _changeCardTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kFBaseWidth, kUIsIphone5?384:358) style:UITableViewStylePlain];
     _changeCardTableView.delegate       = self;
     _changeCardTableView.dataSource     = self;
     _changeCardTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_changeCardTableView];
-    [_changeCardTableView release];
     
     UIImage *changeButtonImage = [UIImage imageNamed:@"sheet_button.png"];
     changeButtonImage          = [changeButtonImage stretchableImageWithLeftCapWidth:5 topCapHeight:8];
@@ -167,7 +166,8 @@
 
 -(void)fallBackButtonClicked
 {
-    [self dismissModalViewControllerAnimated:NO];
+//    [self dismissModalViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 #pragma mark- DoExchangeRequest delegate methods
@@ -181,7 +181,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else if (doExchangeResponse.status == 0){
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:doExchangeResponse.msg
                                                             message:nil
@@ -189,7 +188,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -219,7 +217,7 @@
     static NSString *cellIdentifier = @"CellIdentifier";
     ChangeCardUserCell *cell = (ChangeCardUserCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[[ChangeCardUserCell alloc] init] autorelease];
+        cell = [[ChangeCardUserCell alloc] init];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -235,7 +233,7 @@
             UIImage *headImage = [self editHeadImageFromDownLoadImage:image];
             [cell setUserHeadImage:headImage];
         }else{
-            [_imageDownLoadQueue addImageURL:headImageURL];
+//            [_imageDownLoadQueue addImageURL:headImageURL];
         }
     }
     
@@ -296,12 +294,8 @@
 
 -(void)dealloc
 {
-    [_headImageDic release];
-    [_headImageURLArray release];
-    [_imageDownLoadQueue release];
     self.headImageURLArray = nil;
     self.userArray = nil;
-    [super dealloc];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "leftMenuViewController.h"
 #import "Global.h"
+#import "NearbyFriendViewController.h"
 
 @interface leftMenuViewController ()
 {
@@ -38,7 +39,6 @@
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kFBaseWidth, kFBaseHeight)];
     backgroundImageView.image = [UIImage imageNamed:@"test_left.png"];
     [self.view addSubview:backgroundImageView];
-    [backgroundImageView release];
     
     menuDataList = [[NSMutableArray alloc]initWithObjects:@"我的名片",@"我的好友",@"附近查找",@"最近联系",@"发布供需",@"系统设置", nil];
     
@@ -62,13 +62,12 @@
     //--各个导航界面初始化
 //    _certneCardViewController         = [[certneCardViewController alloc] init];
     _connectViewController            = [[ConnectionsViewController alloc]init];
-    _nearbyFriendViewController       = [[NearbyFriendViewController alloc]init];
     _recentContactViewController      = [RecentContactViewController new];
     _publishInformationViewController = [PublishInformationViewController new];
     _systemSettingViewController      = [SystemSettingViewController new];
     
     [self getConnectionFriendsInfo];
-    [self getNearbyUserListData];
+//    [self getNearbyUserListData];
     [self getSupplyListData];
     [self getNeedListData];
     [self getRecentContactUserData];
@@ -114,40 +113,38 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - Get NearByUserdata methods
 
--(void)getNearbyUserListData
-{
-    if (_getNearbyUserListRequest == nil) {
-        _getNearbyUserListRequest = [[GetNearbyUserListRequest alloc] init];
-        _getNearbyUserListRequest.delegate = self;
-    }
-    
-    [_getNearbyUserListRequest sendGetNearbyUserListRequestWithSessionid:[Global shareGlobal].session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude];
-}
-
--(void)GetNearbyUserListRequestDidFinished:(GetNearbyUserListRequest *)getNearbyUserListRequest nearbyUserList:(NearbyUserList *)nearbyUserList
-{
-    if (nearbyUserList.status == 1) {
-        _getNearbyUserTempArray = nearbyUserList.nearbyUserArray;
-    }else if (nearbyUserList.status == 0){
-        NSLog(@"nearbyUserList.msg:%@",nearbyUserList.msg);
-    }
-}
-
--(void)GetNearbyUserListRequestDidFailed:(GetNearbyUserListRequest *)getNearbyUserListRequest error:(NSError *)error
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
+//-(void)getNearbyUserListData
+//{
+//    if (_getNearbyUserListRequest == nil) {
+//        _getNearbyUserListRequest = [[GetNearbyUserListRequest alloc] init];
+//        _getNearbyUserListRequest.delegate = self;
+//    }
+//    
+//    [_getNearbyUserListRequest sendGetNearbyUserListRequestWithSessionid:[Global shareGlobal].session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude];
+//}
+//
+//-(void)GetNearbyUserListRequestDidFinished:(GetNearbyUserListRequest *)getNearbyUserListRequest nearbyUserList:(NearbyUserList *)nearbyUserList
+//{
+//    if (nearbyUserList.status == 1) {
+//        _getNearbyUserTempArray = nearbyUserList.nearbyUserArray;
+//    }else if (nearbyUserList.status == 0){
+//        NSLog(@"nearbyUserList.msg:%@",nearbyUserList.msg);
+//    }
+//}
+//
+//-(void)GetNearbyUserListRequestDidFailed:(GetNearbyUserListRequest *)getNearbyUserListRequest error:(NSError *)error
+//{
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+//                                                        message:@"请检查网络设置"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"好的"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
 
 #pragma mark - Get SupplyList data
 
@@ -179,7 +176,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - Get NeedList data
@@ -212,7 +208,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - getRecentContact user Data
@@ -238,13 +233,13 @@
 
 -(void)GetContactUserListRequestDidFailed:(GetContactUserListRequest *)getContactUserListRequest error:(NSError *)error
 {
+    
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
                                                         message:@"请检查网络设置"
                                                        delegate:self
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - Table View Data Source
@@ -271,7 +266,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *footerTempView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    UIView *footerTempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
     [footerTempView setBackgroundColor:[UIColor whiteColor]];
     return footerTempView;
 }
@@ -286,7 +281,7 @@
     static NSString *CellIdentifier = @"cell";
     LeftSidebarCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[[LeftSidebarCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[LeftSidebarCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     cell.selectionStyle      = UITableViewCellSelectionStyleNone;
     cell.iconImageView.image = [_iconArray objectAtIndex:indexPath.row];
@@ -306,40 +301,55 @@
             else if(indexPath.row == 1)
             {
                 _connectViewController.parserFriendsArray = _getFriendsTempArray;
-                [_delegate leftSideBarSelectWithController:_connectViewController];
+                UINavigationController *connectNavVC = [[UINavigationController alloc] initWithRootViewController:_connectViewController];
+                connectNavVC.navigationBarHidden = YES;
+                [_delegate leftSideBarSelectWithController:connectNavVC];
             }
             else if(indexPath.row == 2)
             {
-                _nearbyFriendViewController.nearbyUserParserArray = _getNearbyUserTempArray;
-                [_delegate leftSideBarSelectWithController:_nearbyFriendViewController];
+                NearbyFriendViewController *nearbyFriendView = [[NearbyFriendViewController alloc] init];
+                UINavigationController *nearbyFriendNavVC = [[UINavigationController alloc] initWithRootViewController:nearbyFriendView];
+                nearbyFriendView.navViewTitle = [menuDataList objectAtIndex:indexPath.row];
+                nearbyFriendView.isSideBarNavVC = YES;
+                nearbyFriendNavVC.navigationBarHidden = YES;
+                [_delegate leftSideBarSelectWithController:nearbyFriendNavVC];
             }
             else if(indexPath.row == 3)
             {
                 _recentContactViewController.contactUserParserArray = _getContactUserTempArray;
-                [_delegate leftSideBarSelectWithController:_recentContactViewController];
+                UINavigationController *recentContactNavVC = [[UINavigationController alloc] initWithRootViewController:_recentContactViewController];
+                _recentContactViewController.navViewTitle = [menuDataList objectAtIndex:indexPath.row];
+                _recentContactViewController.isSideBarNavVC = YES;
+                recentContactNavVC.navigationBarHidden = YES;
+                [_delegate leftSideBarSelectWithController:recentContactNavVC];
             }
             else if(indexPath.row == 4)
             {
                 _publishInformationViewController.supplyParserArray = _getSupplyListArray;
                 _publishInformationViewController.needParserArray   = _getNeedListArray;
-                [_delegate leftSideBarSelectWithController:_publishInformationViewController];
+                UINavigationController *publishInfoNavVC = [[UINavigationController alloc] initWithRootViewController:_publishInformationViewController];
+                _publishInformationViewController.navViewTitle = [menuDataList objectAtIndex:indexPath.row];
+                _publishInformationViewController.isSideBarNavVC = YES;
+                publishInfoNavVC.navigationBarHidden = YES;
+                [_delegate leftSideBarSelectWithController:publishInfoNavVC];
             }
             else
             {
-                [_delegate leftSideBarSelectWithController:_systemSettingViewController];
+                UINavigationController *systemSettingNavVC = [[UINavigationController alloc] initWithRootViewController:_systemSettingViewController];
+                _systemSettingViewController.navViewTitle = [menuDataList objectAtIndex:indexPath.row];
+                _systemSettingViewController.isSideBarNavVC = YES;
+                systemSettingNavVC.navigationBarHidden = YES;
+                [_delegate leftSideBarSelectWithController:systemSettingNavVC];
             }
         }
     }
 }
 
-//-(NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//}
-//
 -(UIViewController *)subConWithIndex:(int)index
 {
     certneCardViewController *certneViewController = [[certneCardViewController alloc]init];
-    return [certneViewController autorelease];
+    UINavigationController *certneCardNavVC = [[UINavigationController alloc] initWithRootViewController:certneViewController];
+    return certneCardNavVC;
 }
 
 #pragma mark- Memory management methods
@@ -354,30 +364,15 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 - (void)dealloc
 {
-    [menuDataList release];
-    [menuTableView release];
-    [_connectViewController release];
-    [_nearbyFriendViewController release];
-    [_systemSettingViewController release];
-    [_recentContactViewController release];
-    [_publishInformationViewController release];
-    
     _systemSettingViewController = nil;
     _recentContactViewController = nil;
-    _nearbyFriendViewController  = nil;
     _connectViewController       = nil;
     _iconArray = nil;
     
     _getFriendsTempArray = nil;
     _getFriendsResponse  = nil;
-    [super dealloc];
 }
 
 @end

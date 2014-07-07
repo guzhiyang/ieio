@@ -32,7 +32,6 @@
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"商机详情"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     [self getImageFromDownLoader];
     _productImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -78,11 +77,6 @@
     [_headView addSubview:_headImageButton];
     [_headView addSubview:coverImageView];
     [self.view addSubview:_headView];
-    [_headView release];
-    [_userNameLabel release];
-    [_userCopanyLabel release];
-    [coverImageView release];
-    [headViewBg release];
     
     _messageLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, self.messageHeight)];
     _messageLabel.textAlignment = NSTextAlignmentLeft;
@@ -129,11 +123,6 @@
     [_contentView addSubview:_locationLabel];
     [_contentView addSubview:_messageLabel];
     [self.view addSubview:_contentView];
-    [contentViewBgImage release];
-    [dateImageView release];
-    [_locationLabel release];
-    [_contentView release];
-    [_messageLabel release];
             
     self.view.backgroundColor = UIColorFromFloat(216, 215, 210);
 }
@@ -146,8 +135,8 @@
 
 -(void)getImageFromDownLoader
 {
-    _imageDownLoader = [[ImageDownLoader alloc] initWithURLString:self.publicInfo.img delegate:self];
-    _headImageDownLoader = [[ImageDownLoader alloc] initWithURLString:self.publicInfo.avatar delegate:self];
+//    _imageDownLoader = [[ImageDownLoader alloc] initWithURLString:self.publicInfo.img delegate:self];
+//    _headImageDownLoader = [[ImageDownLoader alloc] initWithURLString:self.publicInfo.avatar delegate:self];
 }
 
 -(void)createImage:(NSData *)imageData
@@ -178,33 +167,33 @@
     _largeImageButton.hidden = YES;
 }
 
-#pragma mark - ImageDownLoader delegate methods
-
--(void)downLoadFinish:(ImageDownLoader *)downLoader
-{
-    //--
-}
-
--(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
-{
-    if ([downLoader isEqual:_imageDownLoader]) {
-        _imageData = [[NSData alloc] init];
-        _imageData = downLoader.receivedData;
-        
-        [NSThread detachNewThreadSelector:@selector(createImage:)
-                                 toTarget:self
-                               withObject:downLoader.receivedData];
-    }else if ([downLoader isEqual:_headImageDownLoader]){
-        UIImage *image = [UIImage imageWithData:downLoader.receivedData];
-        UIImage *headImage = [self getHeadImageFromDownLoadImage:image];
-        [_headImageButton setBackgroundImage:headImage forState:UIControlStateNormal];
-    }
-}
-
--(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
-{
-}
-
+//#pragma mark - ImageDownLoader delegate methods
+//
+//-(void)downLoadFinish:(ImageDownLoader *)downLoader
+//{
+//    //--
+//}
+//
+//-(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
+//{
+//    if ([downLoader isEqual:_imageDownLoader]) {
+//        _imageData = [[NSData alloc] init];
+//        _imageData = downLoader.receivedData;
+//        
+//        [NSThread detachNewThreadSelector:@selector(createImage:)
+//                                 toTarget:self
+//                               withObject:downLoader.receivedData];
+//    }else if ([downLoader isEqual:_headImageDownLoader]){
+//        UIImage *image = [UIImage imageWithData:downLoader.receivedData];
+//        UIImage *headImage = [self getHeadImageFromDownLoadImage:image];
+//        [_headImageButton setBackgroundImage:headImage forState:UIControlStateNormal];
+//    }
+//}
+//
+//-(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
+//{
+//}
+//
 #pragma mark - NavBarView delegate methods
 
 -(void)fallBackButtonClicked
@@ -274,7 +263,6 @@
 {
     _userNameLabel.text = nil;
     _messageLabel.text  = nil;
-    [super dealloc];
 }
 
 @end

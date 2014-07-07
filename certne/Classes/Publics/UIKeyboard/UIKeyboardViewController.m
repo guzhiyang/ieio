@@ -32,7 +32,6 @@ static CGFloat viewFrameY            = 0;
 - (void)dealloc {
     _boardDelegate = nil;
 	[self removeKeyBoardNotification];
-	[super dealloc];
 }
 
 //监听键盘隐藏和显示事件
@@ -263,7 +262,6 @@ static CGFloat viewFrameY            = 0;
 			((UITextView *)aview).delegate = self;
 		}
 	}
-	[keyboardToolbar release];
 }
 
 @end

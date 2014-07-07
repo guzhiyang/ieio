@@ -36,7 +36,6 @@
     [_navBarView settitleLabelText:@"发布信息"];
     [_navBarView.fallBackButton setBackgroundImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     _addImageButton=[UIButton buttonWithType:UIButtonTypeCustom];
     _addImageButton.frame = CGRectMake(10, 80, 300, 100);
@@ -51,7 +50,6 @@
     _informationTextView.returnKeyType = UIReturnKeyDone;
     _informationTextView.font = [UIFont fontWithName:FONTNAME size:14];
     [self.view addSubview:_informationTextView];
-    [_informationTextView release];
     
     _supplyButton=[UIButton buttonWithType:UIButtonTypeCustom];
     _supplyButton.frame = CGRectMake(10, 310, 150, 30);
@@ -64,7 +62,6 @@
     _supplyLabel.textAlignment = NSTextAlignmentCenter;
     _supplyLabel.font = [UIFont fontWithName:FONTNAME size:16];
     [self.view addSubview:_supplyLabel];
-    [_supplyLabel release];
     
     _demandButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _demandButton.frame = CGRectMake(160, 310, 150, 30);
@@ -78,7 +75,6 @@
     _demandLabel.textColor     = [UIColor whiteColor];
     _demandLabel.font          = [UIFont fontWithName:FONTNAME size:16];
     [self.view addSubview:_demandLabel];
-    [_demandLabel release];
     
     self.view.backgroundColor = UIColorFromFloat(210, 210, 210);
 }
@@ -146,7 +142,6 @@
                                                                otherButtonTitles:@"使用相机拍照",@"从相册中读取", nil];
     chooseImageActionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [chooseImageActionSheet showInView:self.view];
-    [chooseImageActionSheet release];
 }
 
 #pragma mark - NavBarView delegate methods
@@ -174,7 +169,6 @@
             
             OverlayViewController *overlayController = [[OverlayViewController alloc] init];
             pickerController.cameraOverlayView = overlayController.view;
-            [overlayController release];
             
             pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             [self presentModalViewController:pickerController animated:YES];
@@ -185,7 +179,6 @@
                                                               cancelButtonTitle:@"好的"
                                                               otherButtonTitles:nil];
             [cameraNotAlertView show];
-            [cameraNotAlertView release];
         }
     }else if(buttonIndex == 1){
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
@@ -203,7 +196,6 @@
                                                               cancelButtonTitle:@"好的"
                                                               otherButtonTitles:nil];
             [photoFileAlertView show];
-            [photoFileAlertView release];
         }
     }else{
         [actionSheet dismissWithClickedButtonIndex:2 animated:NO];
@@ -234,7 +226,6 @@
                                                 cancelButtonTitle:@"好的"
                                                 otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         //--下面的方法处理的获得的图片
         UIImage *buttonImage=[self getImageFromOriginalImage:image];
@@ -245,7 +236,6 @@
     
     [picker dismissModalViewControllerAnimated:YES];
     picker.delegate = self;
-    [picker release];
     picker = nil;
 }
 
@@ -315,7 +305,6 @@
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSInteger intFlag = NSYearCalendarUnit;
     NSDateComponents *compent = [calendar components:intFlag fromDate:date];
-    [calendar release];
     int year = [compent year];
     return year;
 }
@@ -325,7 +314,6 @@
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSInteger intFlag = NSMonthCalendarUnit;
     NSDateComponents *compent = [calendar components:intFlag fromDate:date];
-    [calendar release];
     int month=[compent month];
     return month;
 }
@@ -365,7 +353,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发布失败！"
                                                             message:nil
@@ -373,7 +360,6 @@
                                                   cancelButtonTitle:@"请重试!"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -385,7 +371,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - Memory menagement methods
@@ -393,7 +378,6 @@
 -(void)dealloc
 {
     _informationTextView = nil;
-    [super dealloc];
 }
 
 @end

@@ -32,7 +32,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection = nil;
     }
 }
@@ -65,8 +64,6 @@
             [_delegate agreeInviewRequestDidFailed:self error:(NSError *)parserObject];
         }
     }
-    
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -82,7 +79,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

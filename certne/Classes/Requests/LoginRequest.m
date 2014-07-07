@@ -9,8 +9,82 @@
 #import "LoginRequest.h"
 #import "LoginUserInfoParser.h"
 #import "Foundation.h"
+#import "certneCardAppDelegate.h"
 
 @implementation LoginRequest
+@synthesize loadingView;
+@synthesize backgroundView;
+@synthesize background_hidden;
+@synthesize activity_hidden;
+@synthesize request_cancle;
+@synthesize receivedData;
+
+-(id)init
+{
+    self = [super init];
+    if (self) {
+        loadingView = [[TKLoadingView alloc] initWithTitle:@"加载..."];
+        loadingView.center = CGPointMake(kFBaseWidth/2, kFBaseHeight/2);
+        [loadingView startAnimating];
+        
+        _window = certneCardApp.window;
+        backgroundView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        backgroundView.backgroundColor = [UIColor clearColor];
+        [_window addSubview:backgroundView];
+        [backgroundView setHidden:YES];
+        [backgroundView addSubview:loadingView];
+        
+        activity_hidden   = NO;
+        background_hidden = NO;
+        request_cancle    = NO;
+        
+        _lock = [[NSLock alloc] init];
+    }
+    
+    return self;
+}
+
+static LoginRequest *shareRequest = nil;
+
++(LoginRequest *)shareRequest
+{
+	@synchronized(self){
+        if (shareRequest == nil) {
+            shareRequest = [[LoginRequest alloc] init];
+        }
+    }
+    return shareRequest;
+}
+
+-(void)startAnimate
+{
+    [_lock lock];
+    
+//    if (activity_hidden) {
+//        loadingView.hidden = YES;
+//        background_hidden = YES;
+//    }else{
+        loadingView.hidden = NO;
+        background_hidden  = NO;
+        [loadingView startAnimating];
+//    }
+    [backgroundView setHidden:background_hidden];
+    
+    [_lock unlock];
+}
+
+-(void)stopAnimate
+{
+    [_lock lock];
+    
+    activity_hidden    = YES;
+    loadingView.hidden = YES;
+    background_hidden  = YES;
+    [loadingView stopAnimating];
+    [backgroundView setHidden:background_hidden];
+    
+    [_lock unlock];
+}
 
 -(void)sendLoginRequestWithUseMobile:(NSString *)mobile password:(NSString *)password
 {
@@ -25,6 +99,7 @@
     [URLRequest setHTTPMethod:@"POST"];
     [URLRequest setTimeoutInterval:TIMEOUTINTERAL];
     [URLRequest setHTTPBody:postData];
+    [self startAnimate];
     
     _URLConnection=[[NSURLConnection alloc]initWithRequest:URLRequest
                                                   delegate:self
@@ -53,6 +128,8 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSString *receiveString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"获取的数据:%@",receiveString);
     LoginUserInfoParser *parser=[[LoginUserInfoParser alloc] init];
     id parserObject=[parser loginUserInfoParserWithJSONData:self.receivedData];
     
@@ -63,13 +140,13 @@
             [_delegate loginRequestFailed:self error:(NSError *)parserObject];
         }
     }else if ([[parserObject class] isSubclassOfClass:[LoginUserInfo class]])
-    {        
+    {
+        [self stopAnimate];
         LoginUserInfo *loginUserInfo=(LoginUserInfo *)parserObject;
         if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(loginRequestFinished:loginUserInfo:)]) {
             [_delegate loginRequestFinished:self loginUserInfo:loginUserInfo];
         }
     }
-    [parser release];
 }
 
 //--连接失败，执行代理
@@ -78,6 +155,7 @@
     NSLog(@"%@",error.description);
     if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(loginRequestFailed:error:)]) {
         [_delegate loginRequestFailed:self error:error];
+        [self stopAnimate];
     }
 }
 
@@ -86,16 +164,16 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection=nil;
     }
 }
 
 -(void)dealloc
 {
-    self.receivedData=nil;
+    receivedData = nil;
+    loadingView  = nil;
+    _lock        = nil;
     [self cancle];
-    [super dealloc];
 }
 
 @end

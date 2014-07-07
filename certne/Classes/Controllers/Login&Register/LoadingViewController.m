@@ -10,6 +10,8 @@
 #import "certneCardAppDelegate.h"
 #import "Global.h"
 #import "Foundation.h"
+#import "TKAlertCenter.h"
+#import "UserDefault.h"
 
 @implementation LoadingViewController
 @synthesize defaultImageView = _defaultImageView;
@@ -41,8 +43,7 @@
     _defaultImageView.image = kUIsIphone5?[UIImage imageNamed:@"Default5.png"]:[UIImage imageNamed:@"Default.png"];
     _defaultImageView.contentMode = UIViewContentModeTop;
     [self.view addSubview:_defaultImageView];
-    [_defaultImageView release];
-        
+    
     [NSTimer scheduledTimerWithTimeInterval:5
                                      target:self
                                    selector:@selector(loadingDone:)
@@ -54,7 +55,7 @@
 
 - (void)reverseLocation
 {
-    CLGeocoder *geoCoder = [[[CLGeocoder alloc] init] autorelease];
+    CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     
     [geoCoder reverseGeocodeLocation:_currentLocation
                    completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -77,42 +78,20 @@
 
 -(void)loadingDone:(NSTimer *)timer
 {
-    SessionIDDatabase *sessionDataBase = [[SessionIDDatabase alloc] init];
-    NSMutableArray *sessionArray = [sessionDataBase getAllData];
-    SessionID *sessionID = [sessionArray firstObject];
-    [sessionDataBase release];
-    
     certneCardAppDelegate *appDelegate=(certneCardAppDelegate *)[UIApplication sharedApplication].delegate;
-    if (sessionID.sessionID == nil) {
-        [appDelegate loadWelcomeView];
-    }else{
+    
+    if ([UserDefault createUserDefault].avatar) {
         if (_userOnLineRequest == nil) {
             _userOnLineRequest = [[UserOnLineRequest alloc] init];
             _userOnLineRequest.delegate = self;
         }
-        [_userOnLineRequest sendUserOnLineRequestWithSessionID:sessionID.sessionID longitude:self.longitude latitude:self.latitude deviceToken:[Global shareGlobal].deviceToken];
+        [_userOnLineRequest sendUserOnLineRequestWithSessionID:[UserDefault createUserDefault].sessionID longitude:self.longitude latitude:self.latitude deviceToken:[Global shareGlobal].deviceToken];
         
-        [Global shareGlobal].currentUser = [self getUserFromSessionID:sessionID];
-        [Global shareGlobal].session_id  = sessionID.sessionID;
+        // -- 可以考虑在这里下载头像缓存
         
-        if ([[Global shareGlobal].currentUser.avatar length] > 5) {
-            _imageDownLoader = [[ImageDownLoader alloc] initWithURLString:[Global shareGlobal].currentUser.avatar delegate:self];
-        }else{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"不可以下载头像"
-                                                                message:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"好的"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-            [alertView release];
-        }
-        
-        if ([[Global shareGlobal].currentUser.avatar length] > 20) {
-            NSArray *headImageArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
-            NSString *headImageKey = [headImageArray lastObject];
-            [Global shareGlobal].headImageKey = headImageKey;
-        }
         [appDelegate loadMainView];
+    }else{
+        [appDelegate loadWelcomeView];
     }
 }
 
@@ -135,7 +114,7 @@
     currentuser.fax        = sessionID.fax;
     currentuser.zipcode    = sessionID.zipcode;
     
-    return [currentuser autorelease];
+    return currentuser;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -196,38 +175,37 @@
 {
 }
 
-#pragma mark - HeadImageDownLoader delegate methods
-
--(void)downLoadFinish:(ImageDownLoader *)downLoader
-{
-}
-
--(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
-{
-    UIImage *cardImage = [UIImage imageWithData:downLoader.receivedData];
-    [Global shareGlobal].headImageData = downLoader.receivedData;
-    
-    NSArray *imageURLArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
-    NSString *imageName = [imageURLArray lastObject];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentFile = [paths objectAtIndex:0];
-    NSString *imageFile    = [documentFile stringByAppendingPathComponent:imageName];
-    NSData *imageData      = UIImagePNGRepresentation(cardImage);
-    [imageData writeToFile:imageFile atomically:YES];
-}
-
--(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
-
+//#pragma mark - HeadImageDownLoader delegate methods
+//
+//-(void)downLoadFinish:(ImageDownLoader *)downLoader
+//{
+//}
+//
+//-(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
+//{
+//    UIImage *cardImage = [UIImage imageWithData:downLoader.receivedData];
+//    [Global shareGlobal].headImageData = downLoader.receivedData;
+//    
+//    NSArray *imageURLArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
+//    NSString *imageName = [imageURLArray lastObject];
+//    
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentFile = [paths objectAtIndex:0];
+//    NSString *imageFile    = [documentFile stringByAppendingPathComponent:imageName];
+//    NSData *imageData      = UIImagePNGRepresentation(cardImage);
+//    [imageData writeToFile:imageFile atomically:YES];
+//}
+//
+//-(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
+//{
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+//                                                        message:@"请检查网络设置"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"好的"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
+//
 #pragma mark - Memory management methods
 
 -(void)viewWillUnload
@@ -240,14 +218,8 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
-    [super dealloc];
 }
 
 @end

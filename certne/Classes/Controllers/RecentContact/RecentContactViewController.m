@@ -58,7 +58,6 @@
             user.sort = [sortObject integerValue];
         }
         [_contactUserArray addObject:user];
-        [user release];
     }
 }
 
@@ -97,18 +96,11 @@
     [self getContactUserDataWithArray:self.contactUserParserArray];
     
     [self getImageURLData];
-    _imageDownloadImageQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_imageURLArray count] delegate:self];
-    
-    _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
-    _navBarView.delegate = self;
-    [_navBarView settitleLabelText:@"最近联系"];
-    [self.view addSubview:_navBarView];
-    [_navBarView release];
+//    _imageDownloadImageQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_imageURLArray count] delegate:self];
     
     UIImageView *lineImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 65, 320, 1)];
     [lineImageView setBackgroundColor:UIColorFromFloat(224, 224, 224)];
     [self.view addSubview:lineImageView];
-    [lineImageView release];
     
     _recentContactTabelView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, kUIsIphone5?504:416)];
     _recentContactTabelView.delegate   = self;
@@ -120,7 +112,6 @@
         _refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0, 0 - _recentContactTabelView.bounds.size.height, _recentContactTabelView.bounds.size.width, _recentContactTabelView.bounds.size.height)];
         _refreshHeaderView.delegate = self;
         [_recentContactTabelView addSubview:_refreshHeaderView];
-        [_refreshHeaderView release];
     }
 }
 
@@ -143,13 +134,6 @@
     UIGraphicsEndImageContext();
     
     return myImage;
-}
-
-#pragma mark - NavbarView delegate methods
-
--(void)fallBackButtonClicked
-{
-    //--展开导航
 }
 
 #pragma mark- tableView datasource methods
@@ -181,15 +165,13 @@
 //        cell.accessoryType  = UITableViewCellAccessoryNone;
 //    }
     
-    RecentContactCell *cell = [[[RecentContactCell alloc] init] autorelease];
+    RecentContactCell *cell = [[RecentContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType  = UITableViewCellAccessoryNone;
 
-    
     UIView *tempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 90)];
     [tempView setBackgroundColor:UIColorFromFloat(251, 251, 251)];
     cell.backgroundView=tempView;
-    [tempView release];
     
     [cell cleanComponents];
     
@@ -202,7 +184,7 @@
             UIImage *headImage = [self editImage:image];
             [cell setUserHeadImage:headImage];
         }else{
-            [_imageDownloadImageQueue addImageURL:headImageURL];
+//            [_imageDownloadImageQueue addImageURL:headImageURL];
         }
     }
     
@@ -231,7 +213,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *tempView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    UIView *tempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
     [tempView setBackgroundColor:[UIColor clearColor]];
     return tempView;
 }
@@ -282,7 +264,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - GetFriendsDetailMsg delegate methods
@@ -307,7 +288,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - ReloadTableViewData delegate methods
@@ -370,7 +350,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -382,7 +361,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - memory management methods
@@ -397,11 +375,6 @@
     [super viewWillUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
     if (_getContactUserListRequest) {
@@ -412,15 +385,9 @@
         [_getFriendDetailInfoRequest cancle];
     }
     
-    [_imageDic release];
-    [_imageURLArray release];
-    [_imageDownloadImageQueue release];
     _imageDic                = nil;
     _imageURLArray           = nil;
-    _imageDownloadImageQueue = nil;
     
-    [_recentContactTabelView release];
     _contactUserArray = nil;
-    [super dealloc];
 }
 @end

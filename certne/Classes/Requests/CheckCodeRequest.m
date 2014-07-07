@@ -59,7 +59,6 @@
             [_delegate checkCodeRequestDidFinished:self checkCodeResponse:checkCodeResponse];
         }
     }
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -73,7 +72,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection=nil;
     }
 }
@@ -82,7 +80,6 @@
 {
     self.receivedData=nil;
     [self cancle];
-    [super dealloc];
 }
 
 @end

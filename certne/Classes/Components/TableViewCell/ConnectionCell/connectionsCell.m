@@ -10,7 +10,7 @@
 #import "Foundation.h"
 
 @implementation connectionsCell
-@synthesize headImageButton;
+@synthesize headImageView;
 @synthesize nameLabel;
 @synthesize positionLabel;
 @synthesize industryLabel;
@@ -24,8 +24,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {        
-        headImageButton=[UIButton buttonWithType:UIButtonTypeCustom];
-        headImageButton.frame=CGRectMake(26, 11, 68, 68);
+        headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(26, 11, 68, 68)];
         
         UIImageView *headTempImageView=[[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 70, 70)];
         [headTempImageView setImage:[UIImage imageNamed:@"circle_headImage.png"]];
@@ -58,7 +57,7 @@
         lineView.backgroundColor=[UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
         
         view=[[UIView alloc] initWithFrame:CGRectMake(320, 0, 320, 90)];
-        [view addSubview:headImageButton];
+        [view addSubview:headImageView];
         [view addSubview:headTempImageView];
         [view addSubview:nameLabel];
         [view addSubview:positionLabel];
@@ -67,8 +66,6 @@
         [view addSubview:lineView];
         
         [self addSubview:view];
-        [headTempImageView release];
-        [lineView release];
     }
     return self;
 }
@@ -77,7 +74,7 @@
 
 -(void)cleanComponents
 {
-    [headImageButton setBackgroundImage:nil forState:UIControlStateNormal];
+    headImageView.image = nil;
     nameLabel.text     = nil;
     positionLabel.text = nil;
     industryLabel.text = nil;
@@ -115,21 +112,15 @@
     companyLabel.text=aCompany;
 }
 
--(void)setUserHeadImage:(UIImage *)aheadImage
+-(void)setUserHeadImage:(NSString *)headImageURL
 {
-    [headImageButton setBackgroundImage:aheadImage forState:UIControlStateNormal];
+    [headImageView setOnlineImage:headImageURL];
 }
 
 #pragma mark- Memory management methods
 
 -(void)dealloc
 {
-    [nameLabel release];
-    [positionLabel release];
-    [industryLabel release];
-    [companyLabel release];
-    [view release];
-    [super dealloc];
 }
 
 @end

@@ -71,7 +71,6 @@
             friendInfoData.uid = [uidObject integerValue];
         }
         [_myFriendsArray addObject:friendInfoData];
-        [friendInfoData release];
     }
 }
 
@@ -82,9 +81,11 @@
     
     for (NSInteger i = 0; i < [_myFriendsArray count]; i++) {
         FriendsInfoListData *friendInfoList = [_myFriendsArray objectAtIndex:i];
-        if ([friendInfoList.avatar length] > 20) {
+        if ([friendInfoList.avatar length] > 10) {
             NSString *headImageURL = friendInfoList.avatar;
             [_headImageArray addObject:headImageURL];
+        }else {
+            [_headImageArray addObject:DEFAULTHEADIMGURL];
         }
     }
 }
@@ -103,7 +104,7 @@
 {
     [super viewDidLoad];
     
-    _headImageDownQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageArray count] delegate:self];
+//    _headImageDownQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageArray count] delegate:self];
     
     _myFriendsArray = [[NSMutableArray alloc] init];
     [self getMyFriendsDataFromArray:self.parserFriendsArray];
@@ -112,8 +113,8 @@
     _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"我的好友"];
-    [self.view addSubview:_navBarView];
-    [_navBarView release];
+//    [self.view addSubview:_navBarView];
+    [self.navigationController.view addSubview:_navBarView];
     
     _searchTextField = [[UITextField alloc]initWithFrame:CGRectMake(55, 12, 248, 20)];
     _searchTextField.delegate      = self;
@@ -130,15 +131,12 @@
     [searchView addSubview:_searchTextField];
     [searchView addSubview:_searchButton];
     [self.view addSubview:searchView];
-    [_searchTextField release];
-    [searchView release];
     
     _connectionTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 108, 320, kUIsIphone5?460:372)];
     _connectionTableView.dataSource     = self;
     _connectionTableView.delegate       = self;
     _connectionTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_connectionTableView];
-    [_connectionTableView release];
     
     if (_refreshHeaderView == nil) {
         _refreshHeaderView = [[EGORefreshTableHeaderView alloc]initWithFrame:CGRectMake(0.0f, 0.0f-_connectionTableView.bounds.size.height, self.view.frame.size.width, _connectionTableView.bounds.size.height)];
@@ -147,12 +145,6 @@
     }
     
     [_refreshHeaderView refreshLastUpdatedDate];    // 更新最后的刷新时间
-    
-    [NSTimer scheduledTimerWithTimeInterval:5
-                                     target:self
-                                   selector:@selector(reloadTableViewDataSource)
-                                   userInfo:nil
-                                    repeats:NO];
 }
 
 #pragma mark - Custom event methods
@@ -195,10 +187,8 @@
         [bannerView.layer insertSublayer:gradient atIndex:0];
         
         [bannerView addSubview:noConnectionLabel];
-        [noConnectionLabel release];
         
         [self setBannerView:bannerView];
-        [bannerView release];
     }
     return _bannerView;
 }
@@ -207,30 +197,37 @@
 
 -(void)fallBackButtonClicked
 {
-    //--展开导航，暂时未实现；
+    NSString *dirction = [NSString stringWithFormat:@""];
+    if ([Global shareGlobal].sideBarShowing) {
+        dirction = @"1";
+    }else{
+        dirction = @"0";
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:SidebarShowNotification object:dirction];
 }
 
 #pragma mark - Getheadiamge queue delegate methods
 
--(void)downLoadImageSuccess:(NSString *)imageURL imageData:(NSData *)imageData
-{
-    //--将图片保存成.png格式--不能在这里保存，取不到size，
-    [_headImageDic setObject:[UIImage imageWithData:imageData] forKey:imageURL];
-    [_connectionTableView visibleCells];
-    [_connectionTableView reloadData];
-}
-
--(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
-{
-}
-
+//-(void)downLoadImageSuccess:(NSString *)imageURL imageData:(NSData *)imageData
+//{
+//    //--将图片保存成.png格式--不能在这里保存，取不到size，
+//    [_headImageDic setObject:[UIImage imageWithData:imageData] forKey:imageURL];
+//    [_connectionTableView visibleCells];
+//    [_connectionTableView reloadData];
+//}
+//
+//-(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
+//{
+//}
+//
 #pragma mark - SearchFriend event methods
 
 -(void)searchFriend:(id)sender
 {
     [_searchTextField resignFirstResponder];
     
-    NSMutableArray *searchUserArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *searchUserArray = [[NSMutableArray alloc] init];
     
     for (NSInteger i = 0; i < [_myFriendsArray count]; i++) {
         FriendDetailData *friendData = [_myFriendsArray objectAtIndex:i];
@@ -253,7 +250,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -263,7 +259,7 @@
 {
     [textField resignFirstResponder];
     
-    NSMutableArray *searchUserArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *searchUserArray = [[NSMutableArray alloc] init];
     
     for (NSInteger i = 0; i < [_myFriendsArray count]; i++) {
         FriendDetailData *friendData = [_myFriendsArray objectAtIndex:i];
@@ -286,7 +282,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 
     return YES;
@@ -301,7 +296,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *tempView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    UIView *tempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
     [tempView setBackgroundColor:[UIColor clearColor]];
     return tempView;
 }
@@ -315,7 +310,7 @@
 {
     UIView  *tempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
     tempView.backgroundColor=[UIColor clearColor];
-    return [tempView autorelease];
+    return tempView;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -335,24 +330,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    connectionsCell *cell=[[[connectionsCell alloc]init] autorelease];
+    connectionsCell *cell=[[connectionsCell alloc]init];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;//如果不需要重写cell的话可以不用重新设置
     
-    UIView *tempView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 90)] autorelease];
+    UIView *tempView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 90)];
     [tempView setBackgroundColor:UIColorFromFloat(248, 248, 248)];
     cell.backgroundView = tempView;
     
     if ([_myFriendsArray count] > indexPath.row) {
         FriendsInfoListData *friendsInfo = [_myFriendsArray objectAtIndex:indexPath.row];
         [cell setFriendsInfo:friendsInfo indexPath:indexPath];
-        NSString *headImageURL = friendsInfo.avatar;
-        UIImage *image = [_headImageDic objectForKey:headImageURL];
-        if (image) {
-            UIImage *headImage = [self editImage:image];
-            [cell setUserHeadImage:headImage];
-        }else{
-            [_headImageDownQueue addImageURL:headImageURL];
-        }
+        NSString *headImageURL = [_headImageArray objectAtIndex:indexPath.row];
+        [cell setUserHeadImage:headImageURL];
+        //--第一次很卡，是不是同步加载的？
+//        NSString *headImageURL = friendsInfo.avatar;
+//        UIImage *image = [_headImageDic objectForKey:headImageURL];
+//        if (image) {
+//            UIImage *headImage = [self editImage:image];
+//            [cell setUserHeadImage:headImage];
+//        }else{
+//            [_headImageDownQueue addImageURL:headImageURL];
+//        }
     }
     
     if ([cell.nameLabel.text length] == 1) {
@@ -419,7 +417,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -489,7 +486,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -501,7 +497,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark- Memory management methods
@@ -519,20 +514,13 @@
     navToolBar           = nil;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
     _arrow_leftImage     = nil;
     _arrow_leftImageView = nil;
     
-    [_myFriendsArray release];
     _myFriendsArray = nil;
     [self onDealloc];
-    [super dealloc];
 }
 
 @end

@@ -43,7 +43,7 @@
     [fallBackButton addTarget:self action:@selector(fallback:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:fallBackButton];
     
-    _headImageDownLoader = [[[ImageDownLoader alloc] initWithURLString:self.headImageURL delegate:self] autorelease];
+//    _headImageDownLoader = [[ImageDownLoader alloc] initWithURLString:self.headImageURL delegate:self];
     
     _headImageView=[[UIImageView alloc]initWithFrame:CGRectMake(65, 75, 190, 190)];
     [self.view addSubview:_headImageView];
@@ -53,12 +53,10 @@
     _activityView.hidesWhenStopped = YES;
     [_activityView startAnimating];
     [self.view addSubview:_activityView];
-    [_activityView release];
     
     UIImageView *headImageBg=[[UIImageView alloc]initWithFrame:CGRectMake(65, 75, 190, 190)];
     [headImageBg setImage:[UIImage imageNamed:@"headImage_big_circle.png"]];
     [self.view addSubview:headImageBg];
-    [headImageBg release];
     
     _nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 285, 120, 24)];
     _nameLabel.text = self.user.name;
@@ -101,7 +99,6 @@
     _chatTextfield.font = [UIFont fontWithName:FONTNAME size:15];
     _chatTextfield.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_chatTextfield];
-    [_chatTextfield release];
     
     UIImage *chatImage = [UIImage imageNamed:@"sheet_button.png"];
     UIImage *stretchChatImage = [chatImage stretchableImageWithLeftCapWidth:10 topCapHeight:5];
@@ -123,7 +120,8 @@
 -(void)fallback:(id)sender
 {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [self.navigationController popViewControllerAnimated:NO];
+//    [self.navigationController popViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 -(void)chat:(id)sender
@@ -139,7 +137,6 @@
                                                 cancelButtonTitle:nil
                                                 otherButtonTitles:@"好的", nil];
         [alertView show];
-        [alertView release];
     }else{
         if (_sayHelloResponseRequest == nil) {
             _sayHelloResponseRequest = [[SayHelloResponseRequest alloc] init];
@@ -180,7 +177,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发送失败!"
                                                             message:nil
@@ -188,7 +184,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -197,33 +192,32 @@
     NSLog(@"SayHelloResponseRequestDidFailed:%@",error);
 }
 
-#pragma mark - ImageDownLoader delegate methods
-
--(void)downLoadFinish:(ImageDownLoader *)downLoader
-{
-    _isLoading = NO;
-    [_activityView stopAnimating];
-    UIImage *downImage = [UIImage imageWithData:downLoader.receivedData];
-    UIImage *image = [self editHeadImage:downImage];
-    _headImageView.image = image;
-}
-
--(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
-{
-}
-
--(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
-{
-    _isLoading = NO;
-    [_activityView stopAnimating];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
+//#pragma mark - ImageDownLoader delegate methods
+//
+//-(void)downLoadFinish:(ImageDownLoader *)downLoader
+//{
+//    _isLoading = NO;
+//    [_activityView stopAnimating];
+//    UIImage *downImage = [UIImage imageWithData:downLoader.receivedData];
+//    UIImage *image = [self editHeadImage:downImage];
+//    _headImageView.image = image;
+//}
+//
+//-(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
+//{
+//}
+//
+//-(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
+//{
+//    _isLoading = NO;
+//    [_activityView stopAnimating];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+//                                                        message:@"请检查网络设置"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"好的"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
 
 #pragma mark - Textfield delegate methods
 
@@ -275,19 +269,8 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
-    [_headImageView release];
-    [_nameLabel release];
-    [_positionLabel release];
-    [_companyNameLabel release];
-    [_addressLabel release];
-    [super dealloc];
 }
 
 @end

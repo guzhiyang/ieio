@@ -35,7 +35,6 @@
 {
     if (_URLConnetion) {
         [_URLConnetion cancel];
-        [_URLConnetion release];
         _URLConnetion = nil;
     }
 }
@@ -71,8 +70,6 @@
             [_delegate DoExchangeRequestDidFinished:self doExchangeResponse:doExchangeResponse];
         }
     }
-    
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -88,7 +85,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

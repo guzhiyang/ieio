@@ -41,16 +41,9 @@
     
     [self setPrivacyRequest];
     
-    _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
-    _navBarView.delegate = self;
-    [_navBarView settitleLabelText:@"系统设置"];
-    [self.view addSubview:_navBarView];
-    [_navBarView release];
-    
     _privacySetButtonView=[[PrivacySetView alloc]initWithFrame:CGRectMake(0, 64, 320, 50)];
     _privacySetButtonView.delegate = self;
     [self.view addSubview:_privacySetButtonView];
-    [_privacySetButtonView release];
     
     _privacySettingView=[[PrivacySettingView alloc]initWithFrame:CGRectMake(0, 115, 320, 204)];
     _privacySettingView.hidden   = YES;
@@ -60,7 +53,6 @@
     _changePsdButtonView=[[ChangePasswordView alloc]initWithFrame:CGRectMake(0, 115, 320, 50)];
     _changePsdButtonView.delegate = self;
     [self.view addSubview:_changePsdButtonView];
-    [_changePsdButtonView release];
     
     _passWordView=[[PassWordView alloc]initWithFrame:CGRectMake(0, 166, 320, 136)];
     _passWordView.hidden   = YES;
@@ -70,7 +62,6 @@
     _sendAdviceButtonView=[[SendAdviceView alloc]initWithFrame:CGRectMake(0, 166, 320, 50)];
     _sendAdviceButtonView.delegate = self;
     [self.view addSubview:_sendAdviceButtonView];
-    [_sendAdviceButtonView release];
     
     _deviceView=[[DeviceView alloc]initWithFrame:CGRectMake(0, 217, 320, 131)];
     _deviceView.hidden   = YES;
@@ -131,20 +122,12 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
 -(void)loginOutRequestDidFinished:(LoginOutRequest *)loginOutRequest error:(NSError *)error
 {
     NSLog(@"退出登录失败:%@",error);
-}
-
-#pragma mark - NavBarView  delegate methods
-
--(void)fallBackButtonClicked
-{
-    //--展开左边列表
 }
 
 #pragma mark - PswView delegate methods
@@ -193,7 +176,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改失败"
                                                             message:nil
@@ -201,7 +183,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -221,7 +202,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else if (statusResponse.status == 0){
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发送失败，请检查网络!"
                                                             message:nil
@@ -229,7 +209,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -339,20 +318,8 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
-    [headNavView release];
-    [_privacySettingView release];
-    [_passWordView release];
-    [_deviceView release];
-    [_certneViewController release];
-    
-    [super dealloc];
 }
 
 @end

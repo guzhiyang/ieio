@@ -8,8 +8,74 @@
 
 #import "GetNearbyUserListRequest.h"
 #import "Foundation.h"
+#import "certneCardAppDelegate.h"
 
 @implementation GetNearbyUserListRequest
+@synthesize delegate     = _delegate;
+@synthesize receivedData = _receivedData;
+@synthesize activity_hidden;
+@synthesize background_hidden;
+
+-(id)init
+{
+    self = [super init];
+    
+    if (self) {
+        _loadingView = [[TKLoadingView alloc] initWithTitle:@"加载中..."];
+        _loadingView.center = CGPointMake(kFBaseWidth/2, kFBaseHeight/2);
+        [_loadingView startAnimating];
+        
+        _window = certneCardApp.window;
+        _backgroundView = [[UIView alloc] initWithFrame:_window.frame];
+        _backgroundView.backgroundColor = [UIColor clearColor];
+        [_backgroundView addSubview:_loadingView];
+        [_backgroundView setHidden:YES];
+        [_window addSubview:_backgroundView];
+        
+        activity_hidden = NO;
+        background_hidden = NO;
+        
+        _lock = [[NSLock alloc] init];
+    }
+    
+    return self;
+}
+
+static GetNearbyUserListRequest *getNearbyUserListRequest = nil;
+
++(GetNearbyUserListRequest *)shareRequest
+{
+    @synchronized(self){
+        if (getNearbyUserListRequest == nil) {
+            getNearbyUserListRequest = [[GetNearbyUserListRequest alloc] init];
+        }
+    }
+    return getNearbyUserListRequest;
+}
+
+-(void)startAnimate
+{
+    [_lock lock];
+    
+    _loadingView.hidden = NO;
+    activity_hidden     = NO;
+    background_hidden   = NO;
+    [_backgroundView setHidden:background_hidden];
+    
+    [_lock unlock];
+}
+
+-(void)stopAnimate
+{
+    [_lock lock];
+    
+    _loadingView.hidden = YES;
+    activity_hidden     = YES;
+    background_hidden   = YES;
+    [_backgroundView setHidden:background_hidden];
+    
+    [_lock unlock];
+}
 
 -(void)sendGetNearbyUserListRequestWithSessionid:(NSString *)sessionid longitude:(CGFloat)longitude latitude:(CGFloat)latitude
 {
@@ -22,6 +88,7 @@
     [URLRequest setHTTPMethod:@"POST"];
     [URLRequest setHTTPBody:postData];
     [URLRequest setTimeoutInterval:TIMEOUTINTERAL];
+    [self startAnimate];
     
     _URLConnection = [[NSURLConnection alloc] initWithRequest:URLRequest
                                                      delegate:self
@@ -32,7 +99,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection = nil;
     }
 }
@@ -55,6 +121,11 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"附近好友:%@",receivedString);
+    
+    [self stopAnimate];
+    
     NearbyUserListParser *parser = [[NearbyUserListParser alloc] init];
     id parserObject = [parser NearbyUserListParserWithJsonData:self.receivedData];
     
@@ -68,11 +139,12 @@
             [_delegate GetNearbyUserListRequestDidFailed:self error:(NSError *)parserObject];
         }
     }
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [self stopAnimate];
+    
     if (_delegate && [(NSObject *)_delegate respondsToSelector:@selector(GetNearbyUserListRequestDidFailed:error:)]) {
         [_delegate GetNearbyUserListRequestDidFailed:self error:error];
     }
@@ -84,7 +156,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

@@ -55,14 +55,15 @@
             detailData.addTime = (NSString *)addTimeObject;
         }
         [_publishMsgArray addObject:detailData];
-        [detailData release];
     }
 }
 
 -(void)createImageURLArray
 {
-    _imageURLArray = [[NSMutableArray alloc] init];
-    _imageDictionary = [[NSMutableDictionary alloc] init];
+//    _imageURLArray = [[NSMutableArray alloc] init];
+    _imageURLArray = [NSMutableArray arrayWithObjects:nil];
+    _imageDictionary = [NSMutableDictionary dictionary];
+//    _imageDictionary = [[NSMutableDictionary alloc] init];
     
     for (NSInteger i = 0; i < [_publishMsgArray count]; i++) {
         InfoData *infoData = [_publishMsgArray objectAtIndex:i];
@@ -87,17 +88,16 @@
     
     [self createUserDetailInfo];
     
-    _headImageDownloader = [[ImageDownLoader alloc] initWithURLString:self.friendDetailData.avatar delegate:self];
+//    _headImageDownloader = [[ImageDownLoader alloc] initWithURLString:self.friendDetailData.avatar delegate:self];
     
     //--imageQueue 图片下载队列
     [self createImageURLArray];
-    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_imageURLArray count] delegate:self];
+//    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_imageURLArray count] delegate:self];
     
     _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"用户信息"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     _userDetailMessageTableView=[[UITableView alloc] initWithFrame:CGRectMake(10, 74, kFBaseWidth - 20, kUIsIphone5?484:396) style:UITableViewStylePlain];
     _userDetailMessageTableView.delegate        = self;
@@ -105,7 +105,6 @@
     _userDetailMessageTableView.backgroundColor = [UIColor clearColor];
     _userDetailMessageTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_userDetailMessageTableView];
-    [_userDetailMessageTableView release];
     
     //--添加弹出菜单
     QBKOverlayMenuViewOffset offset;
@@ -117,7 +116,6 @@
     [_overlayMenuView addButtonWithImage:[UIImage imageNamed:@"overLay_favourite.png"] index:2];
     [_overlayMenuView addButtonWithImage:[UIImage imageNamed:@"overLay_chat.png"] index:3];
     [_overlayMenuView addButtonWithImage:[UIImage imageNamed:@"overLay_phone.png"] index:4];
-    [_overlayMenuView release];
     
     self.view.backgroundColor = UIColorFromFloat(216, 215, 210);
 }
@@ -173,27 +171,26 @@
     [self.navigationController popViewControllerAnimated:NO];
 }
 
-#pragma mark - HeadImageDownLoad delegate methods
-
--(void)downLoadFinish:(ImageDownLoader *)downLoader
-{
-}
-
--(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
-{
-    _headImageData = downLoader.receivedData;
-}
-
--(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
+//#pragma mark - HeadImageDownLoad delegate methods
+//
+//-(void)downLoadFinish:(ImageDownLoader *)downLoader
+//{
+//}
+//
+//-(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
+//{
+//    _headImageData = downLoader.receivedData;
+//}
+//
+//-(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
+//{
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
+//                                                        message:@"请检查网络设置"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"好的"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
 
 #pragma mark- ImageDownLoadQueue delegate methods
 
@@ -212,7 +209,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark- TableView datasource methods
@@ -239,7 +235,7 @@
     static NSString *cellIdentifier = @"CellIdentifier";
     UserDetailMessageCardCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell=[[[UserDetailMessageCardCell alloc] init] autorelease];
+        cell=[[UserDetailMessageCardCell alloc] init];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
@@ -261,7 +257,7 @@
             UIImage *productImage = [self editImage:image];
             [cell setProductImage:productImage];
         }else{
-            [_imageDownLoadQueue addImageURL:imageURL];
+//            [_imageDownLoadQueue addImageURL:imageURL];
         }
     }
     
@@ -304,10 +300,6 @@
         //--转向发短信界面，这个需要拼接字符串，将sms:和用户的电话号码拼接
         NSString *urlString=[NSString stringWithFormat:@"sms%@",chinaPhone];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
-        
-//        //--转向聊天界  －－聊天界面暂时未删除
-//        ChatViewController *chatViewController=[[ChatViewController alloc]init];
-//        [self.navigationController pushViewController:chatViewController animated:NO];
     }else if (index == 2){
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加到我的收藏夹"
                                                             message:nil
@@ -315,7 +307,6 @@
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"取消",@"好的", nil];
         [alertView show];
-        [alertView release];
     }else if (index == 1){
         NSString *website = [NSString stringWithFormat:@"http://%@",self.friendDetailData.website];
         UserWebsiteViewController *userWebsiteViewController = [[UserWebsiteViewController alloc] init];
@@ -355,7 +346,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark- Memory menagement methods
@@ -366,7 +356,6 @@
     self.friendDetailData = nil;
     self.friendInfoMsg    = nil;
     self.userInfoArray    = nil;
-    [super dealloc];
 }
 
 @end

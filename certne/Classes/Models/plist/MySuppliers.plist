@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>1</key>
+	<dict>
+		<key>headImage</key>
+		<string>liudehua.png</string>
+		<key>name</key>
+		<string>德华</string>
+		<key>position</key>
+		<string>销售经理</string>
+		<key>industry</key>
+		<string>五金加工</string>
+		<key>company</key>
+		<string>上海三全五金实业有限公司</string>
+	</dict>
+	<key>2</key>
+	<dict>
+		<key>headImage</key>
+		<string>wanglihong.png</string>
+		<key>name</key>
+		<string>力宏</string>
+		<key>position</key>
+		<string>董事长</string>
+		<key>industry</key>
+		<string>影视广告</string>
+		<key>company</key>
+		<string>上海广而告之公司</string>
+	</dict>
+	<key>3</key>
+	<dict>
+		<key>headImage</key>
+		<string>yixun.png</string>
+		<key>name</key>
+		<string>迅哥</string>
+		<key>position</key>
+		<string>产品经理</string>
+		<key>industry</key>
+		<string>食品营销</string>
+		<key>company</key>
+		<string>上海全聚德食品有限公司</string>
+	</dict>
+	<key>4</key>
+	<dict>
+		<key>headImage</key>
+		<string>mayun.png</string>
+		<key>name</key>
+		<string>云哥</string>
+		<key>position</key>
+		<string>总裁</string>
+		<key>industry</key>
+		<string>金融</string>
+		<key>company</key>
+		<string>上海阿里银行</string>
+	</dict>
+</dict>
+</plist>

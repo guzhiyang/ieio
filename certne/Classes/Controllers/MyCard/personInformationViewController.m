@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     _getHeadImageSuccess = NO;
     
     _userInfoScrollView = [[UserInfoScrollVIew alloc] initWithFrame:CGRectMake(10, 85, 300, kUIsIphone5?483:395)];
@@ -69,7 +69,6 @@
     _userInfoScrollView.addressTextField.delegate    = self;
     _userInfoScrollView.zipcodeTextField.delegate    = self;
     [self.view addSubview:_userInfoScrollView];
-    [_userInfoScrollView release];
     
     //--已经下载到本地，
     NSString *headImageKey = [Global shareGlobal].headImageKey;
@@ -90,7 +89,6 @@
     [_headNavView.fallbackButton addTarget:self action:@selector(backToHome:) forControlEvents:UIControlEventTouchUpInside];
     [_headNavView.titleLabel setText:@"个人信息"];
     [self.view addSubview:_headNavView];
-    [_headNavView release];
     
     self.view.backgroundColor = UIColorFromFloat(210, 215, 225);
 }
@@ -191,7 +189,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-	MCRelease(keyboardViewController);
+//	MCRelease(keyboardViewController);
 }
 
 #pragma mark- KeyboardViewController delegate
@@ -224,10 +222,9 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else if (response.status == 1){
         _sessionIDDataBase = [[SessionIDDatabase alloc] init];
-        SessionID *sessoionID = [[[SessionID alloc] init] autorelease];
+        SessionID *sessoionID = [[SessionID alloc] init];
         sessoionID.uid        = [Global shareGlobal].currentUser.uid;
         sessoionID.sessionID  = [Global shareGlobal].session_id;
         sessoionID.name       = self.userInfoScrollView.nameTextField.text;
@@ -259,9 +256,7 @@
                                                       cancelButtonTitle:@"好的"
                                                       otherButtonTitles:nil];
             [alertView show];
-            [alertView release];
         }
-        [_sessionIDDataBase release];
     }
 }
 
@@ -273,7 +268,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - UIScrollView delegate methods
@@ -287,7 +281,6 @@
                                                              otherButtonTitles:@"使用相机拍照",@"从相册读取照片", nil];
     headImageActionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [headImageActionSheet showInView:self.view];
-    [headImageActionSheet release];
 }
 
 #pragma mark- 又拍云获取日期 保存路径
@@ -302,9 +295,9 @@
 
 -(int)getYear:(NSDate *)date
 {
-    NSDateFormatter *formatter=[[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setTimeStyle:NSDateFormatterMediumStyle];
-    NSCalendar *calendar=[[[NSCalendar alloc] initWithCalendarIdentifier:NSGenericException] autorelease];
+    NSCalendar *calendar=[[NSCalendar alloc] initWithCalendarIdentifier:NSGenericException];
     NSInteger intflag=NSYearCalendarUnit;
     NSDateComponents *compent=[calendar components:intflag fromDate:date];
     int year = [compent year];
@@ -313,9 +306,9 @@
 
 -(int)getMonth:(NSDate *)date
 {
-    NSDateFormatter *dateformatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateformatter = [[NSDateFormatter alloc] init];
     [dateformatter setTimeStyle:NSDateFormatterMediumStyle];
-    NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGenericException] autorelease];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGenericException];
     NSInteger intflag = NSMonthCalendarUnit;
     NSDateComponents *compent = [calendar components:intflag fromDate:date];
     int month = [compent month];
@@ -344,7 +337,6 @@
                                             cancelButtonTitle:nil
                                             otherButtonTitles:@"好的",@"取消", nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark- 系统ActionSheet代理
@@ -367,7 +359,6 @@
                                                             cancelButtonTitle:@"好的"
                                                             otherButtonTitles:nil];
             [cameraNotAlertView show];
-            [cameraNotAlertView release];
         }
     }else if (buttonIndex == 1){
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
@@ -386,7 +377,6 @@
                                                               cancelButtonTitle:@"好的"
                                                               otherButtonTitles:nil];
             [photoFileAlertView show];
-            [photoFileAlertView release];
         }
     }else{
         [actionSheet dismissWithClickedButtonIndex:2 animated:YES];
@@ -406,7 +396,6 @@
                                                   cancelButtonTitle:NSLocalizedString(@"好的", nil)
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else{
         [_userInfoScrollView.headImageButton setBackgroundImage:[self editHeadImageFromPicker:headImage] forState:UIControlStateNormal];
         [self saveImageToDocument:headImage withName:[self getSaveKey]];
@@ -417,7 +406,6 @@
     
     [picker dismissModalViewControllerAnimated:NO];
     picker.delegate = nil;
-    [picker release];
     picker = nil;
 }
 
@@ -425,7 +413,6 @@
 {
     [picker dismissModalViewControllerAnimated:YES];
     picker.delegate = nil;
-    [picker release];
     picker = nil;
 }
 
@@ -478,14 +465,8 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
-    [super dealloc];
 }
 
 @end

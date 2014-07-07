@@ -36,7 +36,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection = nil;
     }
 }
@@ -73,10 +72,6 @@
     }else if ([[parserObject class] isSubclassOfClass:[NSError class]]){
         [_delegate FindPswRequestDIdFailed:self error:(NSError *)parserObject];
     }
-    
-    [receivedString release];
-    [decodeData release];
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -92,7 +87,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

@@ -33,7 +33,6 @@
 {
     if (_URLConnetion) {
         [_URLConnetion cancel];
-        [_URLConnetion release];
         _URLConnetion = nil;
     }
 }
@@ -74,7 +73,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

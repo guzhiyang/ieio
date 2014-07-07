@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>1</key>
+	<dict>
+		<key>title</key>
+		<string>移动电话</string>
+		<key>content</key>
+		<string>16816816888</string>
+		<key>headImage</key>
+		<string>icon_phone.png</string>
+	</dict>
+	<key>2</key>
+	<dict>
+		<key>title</key>
+		<string>公司电话</string>
+		<key>content</key>
+		<string>021+12345678</string>
+		<key>headImage</key>
+		<string>icon_telephone.png</string>
+	</dict>
+	<key>3</key>
+	<dict>
+		<key>title</key>
+		<string>公司邮箱</string>
+		<key>content</key>
+		<string>certne168@certne.com</string>
+		<key>headImage</key>
+		<string>icon_comEmail.png</string>
+	</dict>
+	<key>4</key>
+	<dict>
+		<key>title</key>
+		<string>公司传真</string>
+		<key>content</key>
+		<string>021+12345678</string>
+		<key>headImage</key>
+		<string>icon_fox.png</string>
+	</dict>
+	<key>5</key>
+	<dict>
+		<key>title</key>
+		<string>QQ号码</string>
+		<key>content</key>
+		<string>123456</string>
+		<key>headImage</key>
+		<string>icon_qq.png</string>
+	</dict>
+</dict>
+</plist>

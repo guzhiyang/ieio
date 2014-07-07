@@ -34,7 +34,6 @@
 {
     if (_urlConnection) {
         [_urlConnection cancel];
-        [_urlConnection release];
         _urlConnection = nil;
     }
 }
@@ -59,7 +58,6 @@
 {
     NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
     NSLog(@"隐私设置返回信息 = %@",receivedString);
-    [receivedString release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -73,7 +71,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

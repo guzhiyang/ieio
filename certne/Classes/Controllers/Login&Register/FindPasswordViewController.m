@@ -33,14 +33,12 @@
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"找回密码"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     UIImageView *testImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 84, 280, 38)];
     testImageView.image = [UIImage imageNamed:@"findPswMobile.png"];
     testImageView.layer.cornerRadius = 4.0f;
     testImageView.backgroundColor    = [UIColor whiteColor];
     [self.view addSubview:testImageView];
-    [testImageView release];
     
     _mobileNumTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 93, 230, 20)];
     _mobileNumTextField.delegate      = self;
@@ -49,7 +47,6 @@
     _mobileNumTextField.keyboardType  = UIKeyboardTypeNumberPad;
     _mobileNumTextField.font = [UIFont fontWithName:FONTNAME size:14];
     [self.view addSubview:_mobileNumTextField];
-    [_mobileNumTextField release];
     
     UILabel *explainLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 132, 280, 32)];
     explainLabel.text = @"为了验证您的身份，我们将会发送短信验证码到您手机上。";
@@ -57,7 +54,6 @@
     explainLabel.font = [UIFont fontWithName:FONTNAME size:14];
     explainLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:explainLabel];
-    [explainLabel release];
     
     UIImage *getPswImage = [UIImage imageNamed:@"button_green.png"];
     getPswImage = [getPswImage stretchableImageWithLeftCapWidth:5 topCapHeight:5];
@@ -114,7 +110,6 @@
                                                   cancelButtonTitle:@"请重试!"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -126,7 +121,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - UITextField delegate methods
@@ -146,7 +140,6 @@
 
 -(void)dealloc
 {
-    [super dealloc];
 }
 
 @end

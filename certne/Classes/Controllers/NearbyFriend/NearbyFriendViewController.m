@@ -13,6 +13,7 @@
 #import "NearbyFriendNextViewController.h"
 #import "PromptsMessageViewController.h"
 #import "PushMessageDataBase.h"
+#import "TapkuLibrary.h"
 
 @implementation NearbyFriendViewController
 @synthesize nearbyFriendTabelView = _nearbyFriendTabelView;
@@ -24,8 +25,8 @@
 
 -(void)createNearbyUserDataWithArray:(NSArray *)dataArray
 {
-    
-    for (NSDictionary *nearbyUser in self.nearbyUserParserArray) {
+    _nearbyUserArray = [NSMutableArray arrayWithObjects: nil];
+    for (NSDictionary *nearbyUser in dataArray) {
         NearbyUser *user = [[NearbyUser alloc] init];
         
         id avatarObject = [nearbyUser objectForKey:@"avatar"];
@@ -69,7 +70,6 @@
         }
         
         [_nearbyUserArray addObject:user];
-        [user autorelease];
     }
 }
 
@@ -82,8 +82,9 @@
         NearbyUser *user = [_nearbyUserArray objectAtIndex:i];
         NSString *headImageURL = user.avatar;
         if ([headImageURL length] > 20) {
-            //--如果有人没有传头像就会数组越界--这个问题要解决
             [_headImageArray addObject:headImageURL];
+        }else{
+            [_headImageArray addObject:DEFAULTHEADIMGURL];
         }
     }
 }
@@ -99,7 +100,6 @@
 {
     PushMessageDataBase *pushMessageDatabase = [[PushMessageDataBase alloc] init];
     self.pushMessageArray = [pushMessageDatabase getAllData];
-    [pushMessageDatabase release];
 }
 
 #pragma mark- View lifeCycle methods
@@ -115,24 +115,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     [self getPushMessage];
-    
-    _headImageQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:1 delegate:self];
-    _nearbyUserArray = [[NSMutableArray alloc] init];
-    [self createNearbyUserDataWithArray:self.nearbyUserParserArray];
-    [self createHeadImageArray];
-
-    _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
-    _navBarView.delegate = self;
-    [_navBarView settitleLabelText:@"附近好友"];
-    [self.view addSubview:_navBarView];
-    [_navBarView release];
-    
+    [self getNearbyUserData];
+        
     UIImageView *lineImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 65, 320, 1)];
     [lineImageView setBackgroundColor:UIColorFromFloat(224, 224, 224)];
     [self.view addSubview:lineImageView];
-    [lineImageView release];
     
     UIButton *checkMessageButton=[UIButton buttonWithType:UIButtonTypeCustom];
     [checkMessageButton setFrame:CGRectMake(280, 27, 30, 30)];
@@ -147,7 +136,6 @@
         PushMessage *pushMessage =[self.pushMessageArray objectAtIndex:0];
         _chatMessageLabel.promptsNumber = pushMessage.totalNum;
     }
-//    _chatMessageLabel.promptsNumber = [UIApplication sharedApplication].applicationIconBadgeNumber;
     _chatMessageLabel.text = [NSString stringWithFormat:@"%i",_chatMessageLabel.promptsNumber];
     if (_chatMessageLabel.promptsNumber > 0) {
         [self.view addSubview:_chatMessageLabel];
@@ -164,18 +152,15 @@
         tempView.delegate = self;
         [_nearbyFriendTabelView addSubview:tempView];
         _refreshHeaderView = tempView;
-        [_refreshHeaderView release];
     }
     [_refreshHeaderView refreshLastUpdatedDate];
     
-    //--每隔30秒刷新一次，太浪费服务器资源
-//    [NSTimer scheduledTimerWithTimeInterval:30
-//                                     target:self
-//                                   selector:@selector(reLoadTableViewData)
-//                                   userInfo:nil
-//                                    repeats:YES];
-    
     self.view.backgroundColor = UIColorFromFloat(240, 240, 240);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+//    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - Custom event methods
@@ -185,11 +170,6 @@
     _chatMessageLabel.hidden = YES;
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
-    //--弹出信息界面
-//    PromptsMessageViewController *promptsMessageViewController = [[PromptsMessageViewController alloc] init];
-//    promptsMessageViewController.messageArray = self.pushMessageArray;
-//    [self.navigationController pushViewController:promptsMessageViewController animated:NO];
-
     if (_readNoticeRequest == nil) {
         _readNoticeRequest = [[ReadNoticeRequest alloc] init];
         _readNoticeRequest.delegate = self;
@@ -230,13 +210,6 @@
     return clearPushMessage;
 }
 
-#pragma mark - NavBarView delegate methods
-
--(void)fallBackButtonClicked
-{
-    //--展开导航界面
-}
-
 #pragma mark - HeadImage downQueue delegate methods
 
 -(void)downLoadImageSuccess:(NSString *)imageURL imageData:(NSData *)imageData
@@ -248,13 +221,7 @@
 
 -(void)downLoadImageFailed:(NSString *)imageURL error:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
+    [[TKAlertCenter defaultCenter] postAlertWithMessage:@"图片下载失败，请检查网络设置!"];
 }
 
 #pragma mark- tableView datasource
@@ -276,7 +243,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NearbyUserCell *cell = [[[NearbyUserCell alloc] init] autorelease];
+    //--这个开销太大，占内存太多，如果数据很多则严重影响用户体验
+    NearbyUserCell *cell = [[NearbyUserCell alloc] init];
     cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     cell.accessoryType   = UITableViewCellAccessoryNone;
     
@@ -291,7 +259,7 @@
             UIImage *headImage = [self editHeadImage:image];
             [cell setUserHeadImage:headImage];
         }else{
-            [_headImageQueue addImageURL:headImageURL];
+//            [_headImageQueue addImageURL:headImageURL];
         }
     }
     
@@ -317,7 +285,7 @@
 {
     UIView  *tempView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
     [tempView setBackgroundColor:[UIColor clearColor]];
-    return [tempView autorelease];
+    return tempView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -335,8 +303,8 @@
     NearbyFriendNextViewController *nearbyFriendNextViewController = [[NearbyFriendNextViewController alloc]init];
     nearbyFriendNextViewController.user = user;
     nearbyFriendNextViewController.headImageURL = [_headImageArray objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:nearbyFriendNextViewController animated:NO];
-    [nearbyFriendNextViewController release];
+//    [self.navigationController pushViewController:nearbyFriendNextViewController animated:NO];
+    [self presentModalViewController:nearbyFriendNextViewController animated:NO];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -348,7 +316,7 @@
 
 -(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView *)view
 {
-    [self reLoadTableViewData];
+    [self getNearbyUserData];
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3];
 }
 
@@ -372,14 +340,11 @@
     [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 }
 
--(void)reLoadTableViewData
+-(void)getNearbyUserData
 {
-    if (_getNearbyUserListRequest == nil) {
-        _getNearbyUserListRequest = [[GetNearbyUserListRequest alloc] init];
-        _getNearbyUserListRequest.delegate = self;
-    }
-    
-    [_getNearbyUserListRequest sendGetNearbyUserListRequestWithSessionid:[Global shareGlobal].session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude];
+    [GetNearbyUserListRequest shareRequest].delegate = self;
+
+    [[GetNearbyUserListRequest shareRequest] sendGetNearbyUserListRequestWithSessionid:[Global shareGlobal].session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude];
 }
 
 -(void)doneLoadingTableViewData
@@ -393,30 +358,31 @@
 -(void)GetNearbyUserListRequestDidFinished:(GetNearbyUserListRequest *)getNearbyUserListRequest nearbyUserList:(NearbyUserList *)nearbyUserList
 {
     if (nearbyUserList.status == 1) {
+//        if (_isLoading) {
+//            [_nearbyUserArray removeAllObjects];
+//            [self createNearbyUserDataWithArray:nearbyUserList.nearbyUserArray];
+//            [_nearbyFriendTabelView reloadData];
+//        }else{
+//            [self createNearbyUserDataWithArray:nearbyUserList.nearbyUserArray];
+//            [_nearbyFriendTabelView reloadData];
+//        }
         _isLoading = YES;
         [_nearbyUserArray removeAllObjects];
         [self createNearbyUserDataWithArray:nearbyUserList.nearbyUserArray];
+        [self createHeadImageArray];
+        if ([_headImageArray count] > 0) {
+//            _headImageQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageArray count] delegate:self];
+        }
         [_nearbyFriendTabelView reloadData];
     }else if(nearbyUserList.status == 0){
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"刷新附近的好友失败!"
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"加载附近好友失败!"];
     }
 }
 
 -(void)GetNearbyUserListRequestDidFailed:(GetNearbyUserListRequest *)getNearbyUserListRequest error:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
+    NSString *string = [NSString stringWithFormat:@"服务器返回错误信息:%@",error];
+    [[TKAlertCenter defaultCenter] postAlertWithMessage:string];
 }
 
 #pragma mark - ReadNoticeRequest delegate methods
@@ -432,34 +398,17 @@
         if (success) {
             NSLog(@"信息清理成功!");
         }else{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除失败!"
-                                                                message:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"取消"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-            [alertView release];
+            [[TKAlertCenter defaultCenter] postAlertWithMessage:@"清除推送消息失败!"];
         }
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开推动消息失败"
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"查看推送消息失败!"];
     }
 }
 
 -(void)readNoticeRequestDidFailed:(ReadNoticeRequest *)readNoticeRequest error:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
+    NSString *errorString = [NSString stringWithFormat:@"请求推送消息失败:%@",error];
+    [[TKAlertCenter defaultCenter] postAlertWithMessage:errorString];
 }
 
 #pragma mark- memroy Management methods
@@ -474,23 +423,16 @@
     [super viewWillUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
     if (_getNearbyUserListRequest) {
         [_getNearbyUserListRequest cancle];
     }
-    [_headImageQueue release];
-    [_headImageArray release];
-    [_headImageDic release];
-    _headImageQueue = nil;
-    _headImageArray = nil;
-    _headImageDic   = nil;
-    [super dealloc];
+    
+    _headImageArray        = nil;
+    _headImageDic          = nil;
+    _nearbyUserParserArray = nil;
+    _nearbyUserArray       = nil;
 }
 
 @end

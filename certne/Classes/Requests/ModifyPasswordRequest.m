@@ -36,7 +36,6 @@
 {
     if (_URLConnetion) {
         [_URLConnetion cancel];
-        [_URLConnetion release];
         _URLConnetion = nil;
     }
 }
@@ -72,8 +71,6 @@
             [_delegate modifyPasswordRequestDidFailed:self error:(NSError *)parserObject];
         }
     }
-    
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -89,7 +86,6 @@
 {
     [self cancle];
     self.recevedData = nil;
-    [super dealloc];
 }
 
 @end

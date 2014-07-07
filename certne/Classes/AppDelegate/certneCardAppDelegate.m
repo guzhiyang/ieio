@@ -13,6 +13,7 @@
 #import "RegisterViewController.h"
 #import "Global.h"
 #import "PushMessage.h"
+#import "SvUDIDTools.h"
 
 @implementation certneCardAppDelegate
 
@@ -20,15 +21,13 @@
 
 -(void)dealloc
 {
-    [_window release];
-    [super dealloc];
 }
 
 #pragma mark- LoadingView and LoginView and MainView methods
 
 -(void)loadingView
 {
-    self.loadingViewController = [[[LoadingViewController alloc]init] autorelease];
+    self.loadingViewController = [[LoadingViewController alloc]init];
     self.window.rootViewController = self.loadingViewController;
 }
 
@@ -36,36 +35,31 @@
 {
     WelcomeViewController *welcomeViewController = [[WelcomeViewController alloc]init];
     self.window.rootViewController = welcomeViewController;
-    [welcomeViewController release];
 }
 
 -(void)loadLoginView
 {
     LoginViewController  *loginViewController = [[LoginViewController alloc]init];
-    self.loginNavigationController = [[[UINavigationController alloc]initWithRootViewController:loginViewController] autorelease];
+    self.loginNavigationController = [[UINavigationController alloc]initWithRootViewController:loginViewController];
     self.loginNavigationController.navigationBar.hidden = YES;
     self.window.rootViewController = self.loginNavigationController;
-    [loginViewController release];
 }
 
 -(void)loadRegisterView
 {
     RegisterViewController *registerViewController = [[RegisterViewController alloc]init];
-    UINavigationController *registerNavigationController = [[[UINavigationController alloc]initWithRootViewController:registerViewController] autorelease];
+    UINavigationController *registerNavigationController = [[UINavigationController alloc]initWithRootViewController:registerViewController];
     registerNavigationController.navigationBarHidden = YES;
     self.window.rootViewController = registerNavigationController;
-    [registerViewController release];
 }
 
 -(void)loadMainView
 {
     SideBarViewController *sideBarViewController = [[SideBarViewController alloc] init];
 
-    UINavigationController *sideBarNavigationController = [[UINavigationController alloc]initWithRootViewController:sideBarViewController];
-    sideBarNavigationController.navigationBar.hidden = YES;
-    self.window.rootViewController = sideBarNavigationController;
-    [sideBarViewController release];
-    [sideBarNavigationController release];
+//    UINavigationController *sideBarNavigationController = [[UINavigationController alloc]initWithRootViewController:sideBarViewController];
+//    sideBarNavigationController.navigationBar.hidden = NO;
+    self.window.rootViewController = sideBarViewController;
 }
 
 -(void)loadMainViewAnimateDone
@@ -100,7 +94,9 @@
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    [Global shareGlobal].deviceToken = [SvUDIDTools UDID];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor clearColor];
     [self loadingView];
     [self.window makeKeyAndVisible];
@@ -118,7 +114,6 @@
                                                       cancelButtonTitle:@"知道了"
                                                       otherButtonTitles:nil];
             [alertView show];
-            [alertView release];
         }
     }
     
@@ -187,7 +182,6 @@
     pushMessage.message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     
     [_pushMessageDataBase addPushMessage:pushMessage];
-    [pushMessage release];
     
     NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     
@@ -198,15 +192,14 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    NSString *myDeviceToken = [NSString stringWithFormat:@"%@",deviceToken];
-    NSString *device = [myDeviceToken substringWithRange:NSMakeRange(1, [myDeviceToken length]-2)];
-    [Global shareGlobal].deviceToken = device;
+//    NSString *myDeviceToken = [NSString stringWithFormat:@"%@",deviceToken];
+//    NSString *device = [myDeviceToken substringWithRange:NSMakeRange(1, [myDeviceToken length]-2)];
+    [Global shareGlobal].deviceToken = [SvUDIDTools UDID];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

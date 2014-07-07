@@ -78,7 +78,6 @@
         }
         
         [_messageArray addObject:publicInfo];
-        [publicInfo release];
     }
     return _messageArray;
 }
@@ -90,13 +89,18 @@
     
     for (NSInteger i = 0; i < [_supplyInfoArray count]; i++) {
         PublicInfo *publicInfo = [_supplyInfoArray objectAtIndex:i];
-        if (publicInfo.avatar != nil) {
+        if ([publicInfo.avatar length] > 20) {
             NSString *headImageURL = publicInfo.avatar;
             [_headImageURLArray addObject:headImageURL];
+        }else{
+            [_headImageURLArray addObject:DEFAULTHEADIMGURL];
         }
-        if (publicInfo.img != nil) {
+        
+        if ([publicInfo.img length] >20) {
             NSString *productImageURL = publicInfo.img;
             [_productImageURLArray addObject:productImageURL];
+        }else{
+            [_headImageURLArray addObject:DEFAULTPRODUCTIMGURL];
         }
     }
     
@@ -142,17 +146,11 @@
     
     [self createImageURLArray];
     int imageNum = [_productImageURLArray count] + [_headImageURLArray count];
-    _imageDoenLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
+//    _imageDoenLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
     
     [self createNeedImageURLArray];
     int needImageNum = [_needImageURLArray count] + [_needHeadImageURLArray count];
-    _needImageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:needImageNum delegate:self];
-    
-    _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
-    _navBarView.delegate = self;
-    [_navBarView settitleLabelText:@"企业商机"];
-    [self.view addSubview:_navBarView];
-    [_navBarView release];
+//    _needImageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:needImageNum delegate:self];
     
     UIButton *editInformationButton=[UIButton buttonWithType:UIButtonTypeCustom];
     editInformationButton.frame = CGRectMake(270, 27, 30, 30);
@@ -171,21 +169,19 @@
     _supplyLabel.textAlignment = NSTextAlignmentCenter;
     _supplyLabel.font = [UIFont fontWithName:FONTNAME size:16];
     [self.view addSubview:_supplyLabel];
-    [_supplyLabel release];
     
     _demandButton=[UIButton buttonWithType:UIButtonTypeCustom];
     _demandButton.frame=CGRectMake(160, 74, 150, 30);
     [_demandButton setBackgroundImage:[UIImage imageNamed:@"publish_msg_off.png"] forState:UIControlStateNormal];
     [_demandButton addTarget:self action:@selector(demandButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_demandButton];
-    
+        
     _demandLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 74, 150, 30)];
     _demandLabel.textAlignment = NSTextAlignmentCenter;
     _demandLabel.textColor = [UIColor whiteColor];
     _demandLabel.text = @"需求商机";
     _demandLabel.font = [UIFont fontWithName:FONTNAME size:16];
     [self.view addSubview:_demandLabel];
-    [_demandLabel release];
     
     _supplyInformationTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 300, kUIsIphone5?444:356)];
     _supplyInformationTableView.delegate   = self;
@@ -198,7 +194,6 @@
         _refreshSupplyDataView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0, 0 - _supplyInformationTableView.bounds.size.height, _supplyInformationTableView.bounds.size.width, _supplyInformationTableView.bounds.size.height)];
         _refreshSupplyDataView.delegate = self;
         [_supplyInformationTableView addSubview:_refreshSupplyDataView];
-        [_refreshSupplyDataView release];
     }
     
     _segmentSupplyView=[[UIView alloc] initWithFrame:CGRectMake(10, 114, 300, kUIsIphone5?444:356)];
@@ -206,7 +201,6 @@
     _segmentSupplyView.hidden = NO;
     [_segmentSupplyView addSubview:_supplyInformationTableView];
     [self.view addSubview:_segmentSupplyView];
-    [_segmentSupplyView release];
     
     _demandInformationTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 300, kUIsIphone5?444:356)];
     _demandInformationTableView.delegate   = self;
@@ -219,7 +213,6 @@
         _refreshNeedDataView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0, 0 - _demandInformationTableView.bounds.size.height, _demandInformationTableView.bounds.size.width, _demandInformationTableView.bounds.size.height)];
         _refreshNeedDataView.delegate = self;
         [_demandInformationTableView addSubview:_refreshNeedDataView];
-        [_refreshNeedDataView release];
     }
     
     _segmentDemandView=[[UIView alloc] initWithFrame:CGRectMake(10, 114, 300, kUIsIphone5?444:356)];
@@ -227,7 +220,6 @@
     _segmentDemandView.hidden = YES;
     [_segmentDemandView addSubview:_demandInformationTableView];
     [self.view addSubview:_segmentDemandView];
-    [_segmentDemandView release];
     
     self.view.backgroundColor = UIColorFromFloat(216, 215, 210);
 }
@@ -260,7 +252,6 @@
     EditPublicInformationViewController *editViewController = [[EditPublicInformationViewController alloc] init];
     editViewController.delegate = self;
     [self.navigationController pushViewController:editViewController animated:YES];
-    [editViewController release];
 }
 
 -(UIImage *)editImageFromDownLoadImage:(UIImage *)downLoadImage
@@ -303,13 +294,6 @@
     return image;
 }
 
-#pragma mark - NavBarView delegate methods
-
--(void)fallBackButtonClicked
-{
-    //--展开左边导航
-}
-
 #pragma mark- TableView delegate & datasource methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -348,7 +332,7 @@
         PublicMessageCell   *cell = [tableView dequeueReusableCellWithIdentifier:supplyCellIdentifier];
         
         if (!cell) {
-            cell = [[[PublicMessageCell alloc] init] autorelease];
+            cell = [[PublicMessageCell alloc] init];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.delegate       = self;
         }
@@ -363,7 +347,7 @@
                 UIImage *headImage = [self editImageFromDownLoadImage:image];
                 [cell setHeadImage:headImage];
             }else{
-                [_imageDoenLoadQueue addImageURL:headImageURL];
+//                [_imageDoenLoadQueue addImageURL:headImageURL];
             }
             
             NSString *prodctImageURL = [_productImageURLArray objectAtIndex:indexPath.row];
@@ -372,7 +356,7 @@
                 UIImage *productImage = [self editProductImageFromDownloadImage:proImage];
                 [cell setProductImage:productImage];
             }else{
-                [_imageDoenLoadQueue addImageURL:prodctImageURL];
+//                [_imageDoenLoadQueue addImageURL:prodctImageURL];
             }
         }
         
@@ -382,7 +366,7 @@
         PublicMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:demandCellIdentifier];
         
         if (!cell) {
-            cell = [[[PublicMessageCell alloc] init] autorelease];
+            cell = [[PublicMessageCell alloc] init];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.delegate = self;
         }
@@ -397,7 +381,7 @@
                 UIImage *headImage = [self editImageFromDownLoadImage:image];
                 [cell setHeadImage:headImage];
             }else{
-                [_needImageDownLoadQueue addImageURL:headImageURL];
+//                [_needImageDownLoadQueue addImageURL:headImageURL];
             }
             
             NSString *prodctImageURL = [_needImageURLArray objectAtIndex:indexPath.row];
@@ -406,7 +390,7 @@
                 UIImage *productImage = [self editProductImageFromDownloadImage:proImage];
                 [cell setProductImage:productImage];
             }else{
-                [_needImageDownLoadQueue addImageURL:prodctImageURL];
+//                [_needImageDownLoadQueue addImageURL:prodctImageURL];
             }
         }
         return cell;
@@ -415,7 +399,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PublicInfo *publicInfo = [[[PublicInfo alloc] init] autorelease];
+    PublicInfo *publicInfo = [[PublicInfo alloc] init];
     if ([tableView isEqual:_supplyInformationTableView]) {
         publicInfo = [_supplyInfoArray objectAtIndex:indexPath.row];
     }else{
@@ -465,7 +449,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -477,7 +460,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - ImageDownLoadQueue delegate methods
@@ -501,7 +483,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - EgoRefreshTableViewData delegate methods
@@ -585,7 +566,7 @@
         _supplyInfoArray = [self getMessageInfoDataWithParserArray:publicInfoResponse.dataArray];
         [self createImageURLArray];
         int imageNum = [_headImageURLArray count] + [_productImageURLArray count];
-        _imageDoenLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
+//        _imageDoenLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
         [_supplyInformationTableView reloadData];
     }else{
         NSLog(@"刷新失败!");
@@ -600,7 +581,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - GetNeedListData delegate methods
@@ -613,7 +593,7 @@
         _needdInfoArray = [self getMessageInfoDataWithParserArray:publicInfoResponse.dataArray];
         [self createNeedImageURLArray];
         int imageNum = [_needHeadImageURLArray count] + [_needImageURLArray count];
-        _needImageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
+//        _needImageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:imageNum delegate:self];
         [_demandInformationTableView reloadData];
     }else{
         NSLog(@"刷新失败!");
@@ -628,7 +608,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - EditPublicInfoViewPop delegate methods
@@ -652,19 +631,14 @@
 
 -(void)dealloc
 {
-    [_imageDoenLoadQueue release];
     _supplyInformationTableView = nil;
     _demandInformationTableView = nil;
     
-    [_headImageURLArray release];
-    [_productImageURLArray release];
     _headImageURLArray    = nil;
     _productImageURLArray = nil;
     
-    [_messageArray release];
     self.supplyParserArray = nil;
     self.needParserArray   = nil;
-    [super dealloc];
 }
 
 @end

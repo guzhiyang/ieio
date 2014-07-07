@@ -10,25 +10,25 @@
 #import "Animation.h"
 #import "FriendsInfoListData.h"
 #import "PromptsLabel.h"
+#import "UIImageView+OnlineImage.h"
 
 @interface connectionsCell : UITableViewCell
 {
 }
 
-//--添加cell View测试移动动画
-@property (nonatomic, retain) UIView       *view;
-@property (nonatomic, retain) UIButton     *headImageButton;
-@property (nonatomic, retain) UILabel      *nameLabel;
-@property (nonatomic, retain) UILabel      *positionLabel;
-@property (nonatomic, retain) UILabel      *industryLabel;
-@property (nonatomic, retain) UILabel      *companyLabel;
+@property (nonatomic, strong) UIView       *view;
+@property (nonatomic, strong) UIImageView  *headImageView;
+@property (nonatomic, strong) UILabel      *nameLabel;
+@property (nonatomic, strong) UILabel      *positionLabel;
+@property (nonatomic, strong) UILabel      *industryLabel;
+@property (nonatomic, strong) UILabel      *companyLabel;
 
 -(void)setFriendsInfo:(FriendsInfoListData *)friendsInfo indexPath:(NSIndexPath *)indexPath;
 -(void)setUserName:(NSString *)aName;
 -(void)setUserPosition:(NSString *)aPosition;
 -(void)setUserSupply:(NSString *)aSupply;
 -(void)setUserCompany:(NSString *)aCompany;
--(void)setUserHeadImage:(UIImage *)aHeadImage;
+-(void)setUserHeadImage:(NSString *)headImageURL;
 
 -(void)cleanComponents;
 

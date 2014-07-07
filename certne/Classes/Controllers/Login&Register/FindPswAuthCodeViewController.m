@@ -32,14 +32,12 @@
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"找回验证"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     UIImageView *testImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 84, 280, 38)];
     testImageView.image = [UIImage imageNamed:@"pswCode.png"];
     testImageView.layer.cornerRadius = 4.0f;
     testImageView.backgroundColor    = [UIColor whiteColor];
     [self.view addSubview:testImageView];
-    [testImageView release];
     
     _authCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 93, 230, 20)];
     _authCodeTextField.delegate      = self;
@@ -48,7 +46,6 @@
     _authCodeTextField.keyboardType  = UIKeyboardTypeNumberPad;
     _authCodeTextField.font = [UIFont fontWithName:FONTNAME size:14];
     [self.view addSubview:_authCodeTextField];
-    [_authCodeTextField release];
     
     UIButton *getAuthCodeAgainButton = [UIButton buttonWithType:UIButtonTypeCustom];
     getAuthCodeAgainButton.frame = CGRectMake(20, 126, 80, 30);
@@ -116,7 +113,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -128,7 +124,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - FindPassword delegate methods
@@ -142,7 +137,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -154,7 +148,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - UITextField delegate methods
@@ -174,7 +167,6 @@
 
 -(void)dealloc
 {
-    [super dealloc];
 }
 
 @end

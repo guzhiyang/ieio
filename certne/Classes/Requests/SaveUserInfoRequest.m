@@ -60,7 +60,6 @@
             [_delegate SaveUserInfoRequestDidFinished:self saveUserInfoResponse:saveUserInfoResponse];
         }
     }
-    [saveUserInfoResponseParser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -74,7 +73,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection=nil;
     }
 }
@@ -83,7 +81,6 @@
 {
     [self cancle];
     self.receivedData=nil;
-    [super dealloc];
 }
 
 @end

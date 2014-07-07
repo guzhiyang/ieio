@@ -12,7 +12,7 @@
 
 @interface PrivacySettingView : UIView
 {
-    id<PrivacySettingViewDelegate>  _delegate;
+    __unsafe_unretained id<PrivacySettingViewDelegate>  _delegate;
 }
 
 @property (assign, nonatomic) id<PrivacySettingViewDelegate>    delegate;

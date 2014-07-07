@@ -13,6 +13,9 @@
 #import "ChangeCardViewController.h"
 #import "Global.h"
 #import "Foundation.h"
+#import "UserDefault.h"
+#import "SDImageCache.h"
+#import "UIImageView+WebCache.h"
 
 @implementation certneCardViewController
 @synthesize personInformation = _personInformation;
@@ -21,6 +24,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBarHidden = YES;
         
     _waitPleaseLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 100, 280, 30)];
     _waitPleaseLabel.hidden = YES;
@@ -30,7 +35,6 @@
     _waitPleaseLabel.textAlignment = NSTextAlignmentCenter;
     _waitPleaseLabel.font = [UIFont fontWithName:FONTNAME size:18];
     [self.view addSubview:_waitPleaseLabel];
-    [_waitPleaseLabel release];
     
     _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _closeButton.hidden = YES;
@@ -42,25 +46,17 @@
     UISwipeGestureRecognizer  *imageSwipeUpGesture=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(imageSwipeUpGesture:)];
     [imageSwipeUpGesture setDirection:UISwipeGestureRecognizerDirectionUp];
     
+    EMAsyncImageView *userImageView = [[EMAsyncImageView alloc] initWithFrame:CGRectMake(0, 0, kFBaseWidth, kFBaseHeight)];
+    userImageView.imageUrl = [UserDefault createUserDefault].avatar;
+    userImageView.delegate = self;
+    userImageView.userInteractionEnabled = YES;
+    [userImageView addGestureRecognizer:imageSwipeUpGesture];
+    
     _userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kFBaseWidth, kFBaseHeight)];
     [_userImageView addGestureRecognizer:imageSwipeUpGesture];
     _userImageView.userInteractionEnabled = YES;
-    if ([[Global shareGlobal].headImageKey length] > 5) {
-        if ([Global shareGlobal].headImageData != nil) {
-            [self getUserCardImageFromDocumentWithImageSaveKey:[Global shareGlobal].headImageKey];
-        }else{
-            _timer = [NSTimer scheduledTimerWithTimeInterval:5
-                                                      target:self
-                                                    selector:@selector(setCardImage)
-                                                    userInfo:nil
-                                                     repeats:YES];
-        }
-    }else{
-        _userImageView.image = [UIImage imageNamed:@"defaulta.png"];
-    }
     [self.view addSubview:_userImageView];
-    [_userImageView release];
-    [imageSwipeUpGesture release];
+    [self showHeadImage];
     
     _setBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _setBtn.frame = CGRectMake(270, kUIsIphone5?508:420, 30, 30);
@@ -78,20 +74,18 @@
     _personInformation=[[personInformationViewController alloc]init];
     _personInformation.title = @"个人信息";
     _personInformation.delegate = self;
-    _personInformation.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;//有四种动画效果
+    _personInformation.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
     [self presentModalViewController:_personInformation animated:YES];
 }
 
--(void)setCardImage
+-(void)showHeadImage
 {
-    if ([[Global shareGlobal].headImageKey length] > 10) {
-        [self getUserCardImageFromDocumentWithImageSaveKey:[Global shareGlobal].headImageKey];
-        [_timer invalidate];
-    }else{
-        _userImageView.image = [UIImage imageNamed:@"defaulta.png"];
-        [_timer invalidate];
-    }
+    __block certneCardViewController *blockSelf = self;
+    [_userImageView setImageWithURL:[NSURL URLWithString:TESTUSERAVATAR] placeholderImage:[UIImage imageNamed:@"defaulta"] options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+//        blockSelf.userImageView.image = image;
+        NSLog(@"下载图片出错:%@",error);
+    }];
 }
 
 -(void)getUserCardImageFromDocumentWithImageSaveKey:(NSString *)imageSaveKey
@@ -131,7 +125,6 @@
         _closeButton.hidden = NO;
         _setBtn.hidden      = YES;
                 
-        //--这个应该是20秒没有搜索到要交互名片的好友 
         [NSTimer scheduledTimerWithTimeInterval:15
                                          target:self
                                        selector:@selector(closeButtonClicked:)
@@ -150,12 +143,9 @@
 
 -(void)closeButtonClicked:(id)sender
 {
-    //超过时间30秒即执行这个方法，可以弹出AlertView执行这个方法
-//    _userImageView.frame=CGRectMake(0, 0, 320, 548);
     _closeButton.hidden = YES;
     _setBtn.hidden      = NO;
     
-    //名片向下滑动动画
     CABasicAnimation *moveDownImageAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
     moveDownImageAnimation.duration     = 2.0f;
     moveDownImageAnimation.repeatCount  = 1;
@@ -185,7 +175,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }else if(changeCardResponse.status == 1){
         if (_getChangeCardListRequest == nil) {
             _getChangeCardListRequest = [[GetChangeCardListRequest alloc] init];
@@ -213,7 +202,8 @@
     }else if (cardListResponse.status == 1){
         ChangeCardViewController *changeViewController = [[ChangeCardViewController alloc] init];
         changeViewController.userListArray = cardListResponse.dataArray;
-        [self presentModalViewController:changeViewController animated:NO];
+        [self.navigationController pushViewController:changeViewController animated:NO];
+//        [self presentModalViewController:changeViewController animated:NO];
     }
 }
 
@@ -229,7 +219,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark - resetUserCardImage delegate methods
@@ -237,6 +226,12 @@
 -(void)resetUserCardImageWithKey:(NSString *)imageSaveKey
 {
     [self getUserCardImageFromDocumentWithImageSaveKey:imageSaveKey];
+}
+
+#pragma mark - EMAsyncImageView delegate methods
+
+-(void)EMAsyncImageViewFinishedLoadingWith:(UIImage *)image ImageURL:(NSString *)imageURL EMAsyncImageView:(id)imageView
+{
 }
 
 #pragma mark- Memory management methods
@@ -251,15 +246,9 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
     _personInformation = nil;
     _userImageView     = nil;
-    [super dealloc];
 }
 @end

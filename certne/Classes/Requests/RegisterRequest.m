@@ -64,10 +64,6 @@
             [_delegate connectionDidFinisnedWithRegister:self registerResponse:registerResponse];
         }
     }
-    
-    [receivedString release];
-    [decodeData release];
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -83,7 +79,6 @@
 {
     if (_urlConnection) {
         [_urlConnection cancel];
-        [_urlConnection release];
         _urlConnection=nil;
     }
 }
@@ -94,7 +89,6 @@
 {
     [self cancle];
     self.receivedData=nil;
-    [super dealloc];
 }
 
 @end

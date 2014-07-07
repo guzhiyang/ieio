@@ -36,7 +36,6 @@
 {
     if (_URLConnection) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection = nil;
     }
 }
@@ -48,13 +47,13 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        _receivedData = [NSMutableData data];
+        self.receivedData = [NSMutableData data];
     }
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [_receivedData appendData:data];
+    [self.receivedData appendData:data];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -72,8 +71,6 @@
             [_delegate GetChangeCardListRequestDidFinished:self changeCardListResponse:changeCardListResponse];
         }
     }
-    
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -89,7 +86,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

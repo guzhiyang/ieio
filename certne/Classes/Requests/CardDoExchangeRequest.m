@@ -10,6 +10,8 @@
 #import "Foundation.h"
 
 @implementation CardDoExchangeRequest
+@synthesize receivedData = _receivedData;
+@synthesize delegate     = _delegate;
 
 -(void)sendCardDoExchangeRequestWithSessionid:(NSString *)sessionid longitude:(CGFloat)longitude latitude:(CGFloat)latitude
 {
@@ -24,8 +26,8 @@
     [URLRequest setTimeoutInterval:TIMEOUTINTERAL];
     
     _URLConnection = [[NSURLConnection alloc] initWithRequest:URLRequest
-                                                   delegate:self
-                                           startImmediately:YES];
+                                                     delegate:self
+                                             startImmediately:YES];
 }
 
 #pragma mark- URLConnection delegate methods
@@ -35,17 +37,20 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     
     if (httpResponse.statusCode == 200) {
-        _receivedData = [NSMutableData data];
+        self.receivedData = [NSMutableData data];
     }
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [_receivedData appendData:data];
+    [self.receivedData appendData:data];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{    
+{
+    NSString *receivedString = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"交换获取数据:%@",receivedString);
+    
     ChangeCardResponseParser *parser = [[ChangeCardResponseParser alloc] init];
     id parserObject = [parser ChangeCardResponseParserWithJsonData:self.receivedData];
     
@@ -59,7 +64,6 @@
             [_delegate CardDoExchangeRequestDidFinished:self changeCardResponse:changeCardResponse];
         }
     }
-    [parser release];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -73,7 +77,6 @@
 {
     if (_URLConnection == nil) {
         [_URLConnection cancel];
-        [_URLConnection release];
         _URLConnection = nil;
     }
 }
@@ -84,7 +87,6 @@
 {
     [self cancle];
     self.receivedData = nil;
-    [super dealloc];
 }
 
 @end

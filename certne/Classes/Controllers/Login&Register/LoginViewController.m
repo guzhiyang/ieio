@@ -13,12 +13,22 @@
 #import "FindPasswordViewController.h"
 #import "Foundation.h"
 #import "Global.h"
+#import "UserDefault.h"
+#import "TKAlertCenter.h"
+#import "TKLoadingView.h"
+
+@interface LoginViewController ()
+
+@property (strong, nonatomic) TKLoadingView *loadingView;
+
+@end
 
 @implementation LoginViewController
 
 @synthesize userNameTextField     = _userNameTextField;
 @synthesize userPasswordTextField = _userPasswordTextField;
 @synthesize sessionDataBase       = _sessionDataBase;
+@synthesize loadingView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
     UILabel *welcomeLoginLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 150, 280, 40)];
@@ -40,7 +50,6 @@
     welcomeLoginLabel.textAlignment = NSTextAlignmentCenter;
     welcomeLoginLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:welcomeLoginLabel];
-    [welcomeLoginLabel release];
     
     UILabel *tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 198, 280, 24)];
     tipLabel.font     = [UIFont fontWithName:FONTNAME size:16];
@@ -48,7 +57,6 @@
     tipLabel.textAlignment = NSTextAlignmentCenter;
     tipLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:tipLabel];
-    [tipLabel release];
     
     UIImageView *backgroundImage = [[UIImageView alloc]init];
     backgroundImage.backgroundColor = [UIColor whiteColor];
@@ -57,7 +65,6 @@
     backgroundImage.layer.borderColor = [UIColor colorWithRed:65/255.0f green:170/255.0f blue:170/255.0f alpha:1.0f].CGColor;
     backgroundImage.frame = CGRectMake(20, 308, 280, 38);
     [self.view addSubview:backgroundImage];
-    [backgroundImage release];
     
     _userNameTextField = [[UITextField alloc]initWithFrame:CGRectMake(25, 317, 270, 20)];
     _userNameTextField.delegate = self;
@@ -68,7 +75,6 @@
     _userNameTextField.returnKeyType   = UIReturnKeyDone;
     _userNameTextField.keyboardType    = UIKeyboardTypeNumberPad;
     [self.view addSubview:_userNameTextField];
-    [_userNameTextField release];
     
     UIImageView *nextBackgroundImage = [[UIImageView alloc]init];
     nextBackgroundImage.backgroundColor = [UIColor whiteColor];
@@ -77,7 +83,6 @@
     nextBackgroundImage.layer.borderWidth = 1.0f;
     nextBackgroundImage.frame = CGRectMake(20, 353, 280, 38);
     [self.view addSubview:nextBackgroundImage];
-    [nextBackgroundImage release];
     
     _userPasswordTextField=[[UITextField alloc] initWithFrame:CGRectMake(25, 362, 270, 20)];
     _userPasswordTextField.delegate      = self;
@@ -88,7 +93,6 @@
     _userPasswordTextField.secureTextEntry = YES;
     _userPasswordTextField.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_userPasswordTextField];
-    [_userPasswordTextField release];
     
     UIImage *buttonImage=[UIImage imageNamed:@"button_green.png"];
     buttonImage=[buttonImage stretchableImageWithLeftCapWidth:10 topCapHeight:6];
@@ -129,50 +133,36 @@
 -(void)loadingTheMainView:(UIViewController *)viewController textField:(UITextField *)textField
 {
     if ([_userNameTextField.text length] == 0 && [_userPasswordTextField.text length] == 0) {
-        UIAlertView *allAlertView=[[UIAlertView alloc]initWithTitle:@"请输入用户名和密码"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:nil
-                                               otherButtonTitles:@"好的", nil];
-        [allAlertView show];
-        [allAlertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"请输入手机号和密码!"];
     }else if ([_userNameTextField.text length] == 0 && [_userPasswordTextField.text length] != 0) {
-        UIAlertView *nameAlertView = [[UIAlertView alloc]initWithTitle:@"请输入用户名"
-                                                               message:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:nil
-                                                     otherButtonTitles:@"好的", nil];
-        [nameAlertView show];
-        [nameAlertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"请输入手机号"];
+        [_userNameTextField becomeFirstResponder];
     }else if([_userNameTextField.text length] != 0 && [_userPasswordTextField.text length] == 0){
-        UIAlertView *pswAlertView = [[UIAlertView alloc]initWithTitle:@"请输入密码"
-                                                              message:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:nil
-                                                    otherButtonTitles:@"好的", nil];
-        [pswAlertView show];
-        [pswAlertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"请输入密码"];
+        [_userPasswordTextField becomeFirstResponder];
     }else{
-        if (_loginRequest == nil) {
-            _loginRequest = [[LoginRequest alloc] init];
-            _loginRequest.delegate=self;
-        }
         
-        [_loginRequest sendLoginRequestWithUseMobile:self.userNameTextField.text
-                                            password:self.userPasswordTextField.text];
+        [[LoginRequest shareRequest] sendLoginRequestWithUseMobile:self.userNameTextField.text
+                                                          password:self.userPasswordTextField.text];
+        [LoginRequest shareRequest].delegate = self;
     }
 }
 
 #pragma mark-LoginRequestDelegate methods
 
+-(void)loginRequestStart:(LoginRequest *)request
+{
+    loadingView = [[TKLoadingView alloc] initWithTitle:@"Loading..."];
+}
+
 -(void)loginRequestFinished:(LoginRequest *)request loginUserInfo:(LoginUserInfo *)loginUserInfo
 {
-    [Global shareGlobal].session_id  = loginUserInfo.session_id;
-    [Global shareGlobal].mobile      = loginUserInfo.currentUser.mobile;
+    NSLog(@"登录用户的信息:%@",loginUserInfo);
+    
     [Global shareGlobal].currentUser = loginUserInfo.currentUser;
     
     //--创建数据库，将获得的数据加入数据文件
-    _sessionDataBase = [[[SessionIDDatabase alloc] init] autorelease];
+    _sessionDataBase = [[SessionIDDatabase alloc] init];
     [_sessionDataBase createSessionIDDataTable];
     SessionID *sessionID = [[SessionID alloc] init];
     sessionID.uid        = loginUserInfo.currentUser.uid;
@@ -198,40 +188,38 @@
     appDelegate.session_id = loginUserInfo.session_id;//--将链接字符串赋值给全局变量
     
     if (loginUserInfo.status == 1) {
+        
+        [UserDefault createUserDefault].uid        = loginUserInfo.currentUser.uid;
+        [UserDefault createUserDefault].mobile     = loginUserInfo.currentUser.mobile;
+        [UserDefault createUserDefault].sessionID  = loginUserInfo.session_id;
+        [UserDefault createUserDefault].name       = loginUserInfo.currentUser.name;
+        [UserDefault createUserDefault].company    = loginUserInfo.currentUser.company;
+        [UserDefault createUserDefault].avatar     = loginUserInfo.currentUser.avatar?loginUserInfo.currentUser.avatar:TESTUSERAVATAR;
+        [UserDefault createUserDefault].department = loginUserInfo.currentUser.department;
+        [UserDefault createUserDefault].position   = loginUserInfo.currentUser.position;
+        [UserDefault createUserDefault].industry   = loginUserInfo.currentUser.industry;
+        [UserDefault createUserDefault].qq         = loginUserInfo.currentUser.qq;
+        [UserDefault createUserDefault].website    = loginUserInfo.currentUser.website;
+        [UserDefault createUserDefault].email      = loginUserInfo.currentUser.email;
+        [UserDefault createUserDefault].address    = loginUserInfo.currentUser.address;
+        [UserDefault createUserDefault].tel        = loginUserInfo.currentUser.tel;
+        [UserDefault createUserDefault].fax        = loginUserInfo.currentUser.fax;
+        [UserDefault createUserDefault].zipCode    = loginUserInfo.currentUser.zipcode;
+        [UserDefault createUserDefault].password   = _userPasswordTextField.text;
+        [[UserDefault createUserDefault] saveUserDefault];
+
         if (_userOnLineRequest == nil) {
             _userOnLineRequest = [[UserOnLineRequest alloc] init];
             _userOnLineRequest.delegate = self;
         }
         
-        [_userOnLineRequest sendUserOnLineRequestWithSessionID:[Global shareGlobal].session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude deviceToken:[Global shareGlobal].deviceToken];
+        [_userOnLineRequest sendUserOnLineRequestWithSessionID:loginUserInfo.session_id longitude:[Global shareGlobal].longitude latitude:[Global shareGlobal].latitude deviceToken:[Global shareGlobal].deviceToken];
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-        
-        if ([[Global shareGlobal].currentUser.avatar length] > 5) {
-            _headImageDownLoader = [[ImageDownLoader alloc] initWithURLString:[Global shareGlobal].currentUser.avatar delegate:self];
-        }
-        
-        if ([[Global shareGlobal].currentUser.avatar length] > 5) {
-            NSArray *headImageArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
-            NSString *headImageKey = [headImageArray lastObject];
-            [Global shareGlobal].headImageKey = headImageKey;
-        }
         [appDelegate loadMainView];
     }else if (loginUserInfo.status == 0){
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"密码或者帐号不正确！"
-                                                          message:@"请检查您的帐号或密码！"
-                                                         delegate:self
-                                                cancelButtonTitle:@"好的"
-                                                otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"您的密码或者帐号不正确!"];
     }else{
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"请检查您的网络链接！"
-                                                          message:@"网络链接已断开"
-                                                         delegate:self
-                                                cancelButtonTitle:@"好的"
-                                                otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+        [[TKAlertCenter defaultCenter] postAlertWithMessage:@"请检查您的网络链接!"];
     }
 }
 
@@ -279,47 +267,35 @@
 
 -(void)userOnLineRequestDidFailed:(UserOnLineRequest *)userOnLineRequest error:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
+    [[TKAlertCenter defaultCenter] postAlertWithMessage:@"请检查您的网络设置!"];
 }
 
-#pragma mark - HeadImageDownLoader delegate methods
-
--(void)downLoadFinish:(ImageDownLoader *)downLoader
-{
-}
-
--(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
-{
-    UIImage *headImage = [UIImage imageWithData:downLoader.receivedData];
-    [Global shareGlobal].headImageData = downLoader.receivedData;
-    
-    NSArray *imageURLArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
-    NSString *imageName = [imageURLArray lastObject];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentFile = [paths objectAtIndex:0];
-    NSString *imageFile    = [documentFile stringByAppendingPathComponent:imageName];
-    NSData *imageData      = UIImagePNGRepresentation(headImage);
-    [imageData writeToFile:imageFile atomically:YES];
-}
-
--(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请求发送失败!"
-                                                        message:@"请检查网络设置"
-                                                       delegate:self
-                                              cancelButtonTitle:@"好的"
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
-
+//#pragma mark - HeadImageDownLoader delegate methods
+//
+//-(void)downLoadFinish:(ImageDownLoader *)downLoader
+//{
+//}
+//
+//-(void)downLoaderReceivedData:(ImageDownLoader *)downLoader
+//{
+//    UIImage *headImage = [UIImage imageWithData:downLoader.receivedData];
+//    [Global shareGlobal].headImageData = downLoader.receivedData;
+//    
+//    NSArray *imageURLArray = [[Global shareGlobal].currentUser.avatar componentsSeparatedByString:@"/"];
+//    NSString *imageName = [imageURLArray lastObject];
+//    
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentFile = [paths objectAtIndex:0];
+//    NSString *imageFile    = [documentFile stringByAppendingPathComponent:imageName];
+//    NSData *imageData      = UIImagePNGRepresentation(headImage);
+//    [imageData writeToFile:imageFile atomically:YES];
+//}
+//
+//-(void)downLoaderFaild:(ImageDownLoader *)downLoader error:(NSError *)error
+//{
+//    [[TKAlertCenter defaultCenter] postAlertWithMessage:@"用户名片背景下载失败!"];
+//}
+//
 #pragma mark - Memory management
 
 -(void)viewWillUnload
@@ -332,17 +308,10 @@
     [super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 -(void)dealloc
 {
-    [_loginRequest release];
     _userNameTextField     = nil;
     _userPasswordTextField = nil;
-    [super dealloc];
 }
 
 @end

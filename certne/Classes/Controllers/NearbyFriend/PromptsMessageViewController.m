@@ -31,21 +31,19 @@
     [super viewDidLoad];
     
     [self getHeadImageURLArray];
-    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageURLArray count] delegate:self];
+//    _imageDownLoadQueue = [[ImageDownLoadQueue alloc] initWithConcurrent:[_headImageURLArray count] delegate:self];
     
     _navBarView = [[NavBarView alloc] initWithFrame:CGRectMake(0, 0, kFBaseWidth, 64)];
     _navBarView.delegate = self;
     [_navBarView settitleLabelText:@"打招呼信息"];
     [self.view addSubview:_navBarView];
-    [_navBarView release];
     
     _promptsMessageTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kFBaseWidth, self.view.frame.size.height-64) style:UITableViewStylePlain];
     _promptsMessageTableView.delegate       = self;
     _promptsMessageTableView.dataSource     = self;
     _promptsMessageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_promptsMessageTableView];
-    [_promptsMessageTableView release];
-    
+
     [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(reloadTableViewData)
@@ -104,7 +102,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 #pragma mark- UITableView datasource
@@ -130,7 +127,7 @@
     PromptsMessageCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (!cell) {
-        cell = [[[PromptsMessageCell alloc]init] autorelease];
+        cell = [[PromptsMessageCell alloc]init];
         cell.delegate = self;
         cell.accessoryType  = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -148,7 +145,7 @@
         if (image) {
             [cell setUserHeadImage:image];
         }else{
-            [_imageDownLoadQueue addImageURL:headImageURL];
+//            [_imageDownLoadQueue addImageURL:headImageURL];
         }
     }
 //    [cell setUserHeadImage:[UIImage imageNamed:@"linzhiying.png"]];
@@ -166,11 +163,11 @@
 
 #pragma mark - TableViewCell delegate methods
 
--(void)friendDetailInfoWithHeadImageButton:(CellButton *)headImageButton
+-(void)friendDetailInfoWithHeadImageButton:(HeadImageButton *)headImageButton
 {
 }
 
--(void)addFriendWithAddFriendButton:(CellButton *)addFriendButton
+-(void)addFriendWithAddFriendButton:(HeadImageButton *)addFriendButton
 {
     if (_agreeInviteRequest == nil) {
         _agreeInviteRequest = [[AgreeInviteRequest alloc] init];
@@ -189,7 +186,6 @@
         _tipView.backgroundColor = [UIColor blackColor];
         _tipView.alpha = 0.1;
         [self.view addSubview:_tipView];
-        [_tipView release];
         
         UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 100, 40)];
         contentLabel.text          = @"已添加";
@@ -204,8 +200,6 @@
         _contentView.backgroundColor    = UIColorFromFloat(160, 160, 160);
         [_contentView addSubview:contentLabel];
         [self.view addSubview:_contentView];
-        [contentLabel release];
-        [_contentView release];
         
         [NSTimer scheduledTimerWithTimeInterval:1
                                          target:self
@@ -219,7 +213,6 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -231,7 +224,6 @@
                                               cancelButtonTitle:@"好的"
                                               otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 -(void)dismissView
@@ -244,7 +236,6 @@
 
 -(void)dealloc
 {
-    [super dealloc];
 }
 
 @end

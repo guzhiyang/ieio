@@ -20,6 +20,6 @@
     FindPswRequest      *_findPswRequest;
 }
 
-@property (retain, nonatomic) UITextField       *authCodeTextField;
+@property (strong, nonatomic) UITextField       *authCodeTextField;
 
 @end
